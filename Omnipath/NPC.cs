@@ -9,16 +9,17 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Omnipath
 {
-    class EnemyManager
+    /// <summary>
+    /// Class from which all enemies
+    /// </summary>
+    abstract class NPC : GameObject
     {
-        public void Update()
+        public NPC(Rectangle rectangle, Texture2D texture) 
+            : base(rectangle, texture)
         {
-            // TODO
+
         }
 
-        public void Draw(SpriteBatch sp)
-        {
-            // TODO
-        }
+
     }
 }
