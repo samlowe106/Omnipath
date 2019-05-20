@@ -15,7 +15,7 @@ namespace Omnipath
     class NPCManager
     {
         #region Fields
-        NPC[] npcs;
+        List<NPC> npcs;
         Rectangle screen;
         #endregion
 
@@ -44,6 +44,15 @@ namespace Omnipath
                     npc.Draw(sp);
                 }
             }
+        }
+
+        /// <summary>
+        /// Adds a new NPC to the list of current NPCs
+        /// </summary>
+        /// <param name="newNPC">New NPC</param>
+        public void AddNPC(NPC newNPC)
+        {
+            npcs.Add(newNPC);
         }
         #endregion
     }
