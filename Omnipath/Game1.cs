@@ -12,6 +12,14 @@ namespace Omnipath
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        #region Enums
+        GameState gameState;
+        #endregion
+
+        #region Managers
+        EnemyManager enemyManager;
+        #endregion
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -64,6 +72,18 @@ namespace Omnipath
 
             // TODO: Add your update logic here
 
+            switch(gameState)
+            {
+                case GameState.Gameplay:
+                    enemyManager.Update();
+                    break;
+                case GameState.LoadScreen:
+                    break;
+                case GameState.Menu:
+                    break;
+            }
+
+
             base.Update(gameTime);
         }
 
@@ -75,7 +95,22 @@ namespace Omnipath
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.Begin();
+            
             // TODO: Add your drawing code here
+
+            switch (gameState)
+            {
+                case GameState.Gameplay:
+                    enemyManager.Draw(spriteBatch);
+                    break;
+                case GameState.LoadScreen:
+                    break;
+                case GameState.Menu:
+                    break;
+            }
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }

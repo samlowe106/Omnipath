@@ -41,7 +41,15 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enumerations\DamageType.cs" />
+    <Compile Include="Enumerations\GameState.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Interfaces\IDamageable.cs" />
+    <Compile Include="Interfaces\IDealDamage.cs" />
+    <Compile Include="Interfaces\IDisplayable.cs" />
+    <Compile Include="Objects\Manager Objects\EnemyManager.cs" />
+    <Compile Include="Structs\DamageInstance.cs" />
+    <Compile Include="Objects\Game Objects\GameObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -58,6 +66,9 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Objects\UI Objects\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
