@@ -12,7 +12,7 @@ namespace Omnipath
     /// <summary>
     /// Object from which most objects in the game world will inherit
     /// </summary>
-    abstract class GameObject
+    abstract class GameObject : IDisplayable
     {
         #region Fields
         // MonoGame-relevant fields
@@ -30,6 +30,10 @@ namespace Omnipath
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Draws this object to the screen
+        /// </summary>
+        /// <param name="sp">SpriteBatch with which to draw this object to the screen</param>
         public void Draw(SpriteBatch sp)
         {
             if (this.active)
@@ -38,6 +42,9 @@ namespace Omnipath
             }
         }
 
+        /// <summary>
+        /// Updates this object
+        /// </summary>
         public virtual void Update()
         {
 
@@ -70,7 +77,7 @@ namespace Omnipath
         /// <summary>
         /// This object's texture
         /// </summary>
-        public Texture Texture
+        public Texture2D Texture
         {
             get
             {
