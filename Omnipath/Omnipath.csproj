@@ -49,6 +49,7 @@
     <Compile Include="Interfaces\IDealDamage.cs" />
     <Compile Include="Interfaces\IDisplayable.cs" />
     <Compile Include="Objects\Manager Objects\NPCManager.cs" />
+    <Compile Include="Objects\UI Objects\Button.cs" />
     <Compile Include="Structs\DamageInstance.cs" />
     <Compile Include="Objects\Game Objects\GameObject.cs" />
     <Compile Include="Program.cs" />
@@ -68,9 +69,7 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="app.manifest" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Objects\UI Objects\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

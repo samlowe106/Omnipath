@@ -9,6 +9,8 @@ namespace Omnipath
     /// </summary>
     public class Game1 : Game
     {
+        #region Fields
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -17,7 +19,9 @@ namespace Omnipath
         #endregion
 
         #region Managers
-        EnemyManager enemyManager;
+        NPCManager npcManager;
+        #endregion
+
         #endregion
 
         public Game1()
@@ -75,7 +79,7 @@ namespace Omnipath
             switch(gameState)
             {
                 case GameState.Gameplay:
-                    enemyManager.Update();
+                    npcManager.Update();
                     break;
                 case GameState.LoadScreen:
                     break;
@@ -102,7 +106,7 @@ namespace Omnipath
             switch (gameState)
             {
                 case GameState.Gameplay:
-                    enemyManager.Draw(spriteBatch);
+                    npcManager.Draw(spriteBatch);
                     break;
                 case GameState.LoadScreen:
                     break;

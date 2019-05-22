@@ -20,26 +20,43 @@ namespace Omnipath
         #endregion
 
         #region Constructor
-        public NPCManager(Rectangle screen)
+        public NPCManager(Rectangle screen, int count = -1)
         {
-
+            if (count > -1)
+            {
+                npcs = new List<NPC>(count);
+            }
+            else
+            {
+                npcs = new List<NPC>();
+            }
         }
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Updates each NPC managed by this object
+        /// </summary>
         public void Update()
         {
             foreach (GameObject npc in npcs)
             {
-                npc.Update();
+                if (npc.Active)
+                {
+                    npc.Update();
+                }
             }
         }
 
+        /// <summary>
+        /// Draws all on-screen, active objects using the specified SpriteBatch
+        /// </summary>
+        /// <param name="sp"></param>
         public void Draw(SpriteBatch sp)
         {
             foreach (GameObject npc in npcs)
             {
-                if (screen.Contains(npc.Rectangle) && npc.Active)
+                if (screen.Intersects(npc.Rectangle) && npc.Active)
                 {
                     npc.Draw(sp);
                 }
