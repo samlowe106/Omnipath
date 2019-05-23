@@ -11,10 +11,16 @@ namespace Omnipath
 {
     class Terrain : IDisplayable
     {
+        #region Constants
         /// <summary>
         /// the dimensions of the square of the terrain
         /// </summary>
-        const int DIMENSIONS = 64;
+        private const int DIMENSIONS = 64;
+        #endregion
+
+        #region Fields
+        private int frameNumber;
+        #endregion
 
         #region Constructor
         /// <summary>
@@ -24,15 +30,16 @@ namespace Omnipath
         /// <param name="passable"> if the terrain is passable</param>
         /// <param name="X"> the x location of the terrain </param>
         /// <param name="Y"> the y location of the terrain </param>
-        public Terrain(Texture2D texture, bool passable, int X, int Y)
+        public Terrain(Texture2D texture, bool passable, int x, int y)
         {
             this.Animated = false;
-            this.Textures = new Texture2D[];
+            this.Textures = new Texture2D[1];
             this.Textures[0] = texture;
             this.Passable = passable;
-            this.FrameNumber = 0;
+            this.Active = true;
+            this.frameNumber = 0;
             this.FrameCount = this.Textures.Length;
-            this.Rectangle = new Rectangle(X, Y, DIMENSIONS, DIMENSIONS);
+            this.Rectangle = new Rectangle(x, y, DIMENSIONS, DIMENSIONS);
         }
 
         /// <summary>
@@ -42,27 +49,28 @@ namespace Omnipath
         /// <param name="passable"> if the object is passable</param>
         /// <param name="X"> the x location of the terrain</param>
         /// /// <param name="Y"> the y location of the terrain </param>
-        public Terrain(Texture2D[] textures, bool passable, int X, int Y)
+        public Terrain(Texture2D[] textures, bool passable, int x, int y)
         {
             this.Animated = true;
             this.Textures = textures;
             this.Passable = passable;
-            this.FrameNumber = 0;
+            this.Active = true;
+            this.frameNumber = 0;
             this.FrameCount = this.Textures.Length;
-            this.Rectangle = new Rectangle(X, Y, DIMENSIONS, DIMENSIONS);
+            this.Rectangle = new Rectangle(x, y, DIMENSIONS, DIMENSIONS);
         }
         #endregion
 
         #region Methods
         public void Draw(SpriteBatch sp)
         {
-            if (this.active)
+            if (this.Active)
             {
                 sp.Draw(this.Textures[FrameNumber], this.Rectangle, Color.White);
             }    
             if (this.Animated)
             {
-                FrameNumber = (FrameNumber + 1) % FrameCount;
+                frameNumber = (frameNumber + 1) % FrameCount;
             }
         }
         #endregion
@@ -84,9 +92,25 @@ namespace Omnipath
         public bool Animated { get; }
 
         /// <summary>
-        /// the current frame number (0 for non-animated terrains)
+        /// the current frame number (always 0 for non-animated terrains)
         /// </summary>
-        public int FrameNumber { get; }
+        public int FrameNumber
+        {
+            get
+            {
+                return frameNumber;
+            }
+        }
+
+        public bool Active { get; }
+
+        public Texture2D Texture
+        {
+            get
+            {
+                return Textures[FrameNumber];
+            }
+        }
 
         /// <summary>
         /// a rectangle representing the hitbox of the terrain
