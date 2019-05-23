@@ -9,6 +9,8 @@
         Frost,
         Shock,
         Impact,
-        Pierce
+        Pierce,
+        Slice,
+        Poison
     }
 }
