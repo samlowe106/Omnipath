@@ -54,6 +54,7 @@
     <Compile Include="Objects\Game Objects\GameObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structs\Terrain.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
