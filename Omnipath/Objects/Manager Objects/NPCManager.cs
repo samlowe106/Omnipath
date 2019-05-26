@@ -15,8 +15,8 @@ namespace Omnipath
     class NPCManager
     {
         #region Fields
-        List<NPC> npcs;
-        Rectangle screen;
+        private List<NPC> npcs;
+        private Rectangle screen;
         #endregion
 
         #region Constructor
