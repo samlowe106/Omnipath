@@ -72,5 +72,18 @@ namespace Omnipath
             npcs.Add(newNPC);
         }
         #endregion
+
+        #region Properties
+        /// <summary>
+        /// Returns number of NPCs currently being managed
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                return npcs.Count;
+            }
+        }
+        #endregion
     }
 }
