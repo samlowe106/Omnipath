@@ -51,6 +51,7 @@
     <Compile Include="Interfaces\IDealDamage.cs" />
     <Compile Include="Interfaces\IDisplayable.cs" />
     <Compile Include="Objects\Manager Objects\NPCManager.cs" />
+    <Compile Include="Objects\Map Objects\Map.cs" />
     <Compile Include="Objects\UI Objects\Button.cs" />
     <Compile Include="Structs\DamageInstance.cs" />
     <Compile Include="Objects\Game Objects\GameObject.cs" />
