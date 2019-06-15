@@ -12,14 +12,20 @@ namespace Omnipath
     /// </summary>
     class Map
     {
+        private int mapWidth;
+        private int mapHeight;
 
-        private int width;
-        private int height;
+        private int screenWidth;
+        private int screenHeight;
+
+        private int centerX;
+        private int centerY;
 
         private Graph localMap;
 
-        public Map(string fileName)
+        public Map(string fileName, int centerX, int centerY, int screenWidth, int screenHeight)
         {
+            localMap = new Graph();
             Load(fileName);
         }
 
@@ -38,19 +44,26 @@ namespace Omnipath
                 inStream = File.OpenRead(fileName);
                 reader = new BinaryReader(inStream);
 
-                width = reader.ReadInt32();
-                height = reader.ReadInt32();
+                // Begin reading data from the file
 
-                // Establish the 2d array which will hold the map in memory
-                tiles = new Tile[width, height];
+                mapWidth = reader.ReadInt32();
+                mapHeight = reader.ReadInt32();
 
-                // TODO: READ DATA HERE
+                // Read map data to create a rectangle (with dimensions based on the screenWidth and screenHeight)
+                //  centered on (centerX, centerY)
+
+                // Skip over unnecessary lines
+                // Repeat as necessary:
+                //      Skip over unnecessary X-coordinates
+                //      Read in tile and decoration data
+                //      Move to next line
                 
+                // Read in enemy spawn points once and only once
             }
             // Catch any exceptions
             catch (Exception e)
             {
-                // TODO: PRINT ERROR MESSAGES
+                // TODO: HANDLE OR LOG ERROR MESSAGES
             }
             // Finally, close the file (if it was successfully opened)
             finally
@@ -62,19 +75,25 @@ namespace Omnipath
             }
         }
 
+        /// <summary>
+        /// The maximum width of this map
+        /// </summary>
         public int Width
         {
             get
             {
-                return width;
+                return mapWidth;
             }
         }
 
+        /// <summary>
+        /// The maximum height of this map
+        /// </summary>
         public int Height
         {
             get
             {
-                return Height;
+                return mapHeight;
             }
         }
 
