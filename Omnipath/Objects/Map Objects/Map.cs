@@ -5,13 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Omnipath.Objects.Map_Objects
+namespace Omnipath
 {
     /// <summary>
     /// A playable area loaded from a file
     /// </summary>
     class Map
     {
+
+        private int width;
+        private int height;
+
+        private Graph localMap;
+
         public Map(string fileName)
         {
             Load(fileName);
@@ -32,6 +38,12 @@ namespace Omnipath.Objects.Map_Objects
                 inStream = File.OpenRead(fileName);
                 reader = new BinaryReader(inStream);
 
+                width = reader.ReadInt32();
+                height = reader.ReadInt32();
+
+                // Establish the 2d array which will hold the map in memory
+                tiles = new Tile[width, height];
+
                 // TODO: READ DATA HERE
                 
             }
@@ -47,6 +59,22 @@ namespace Omnipath.Objects.Map_Objects
                 {
                     reader.Close();
                 }
+            }
+        }
+
+        public int Width
+        {
+            get
+            {
+                return width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return Height;
             }
         }
 

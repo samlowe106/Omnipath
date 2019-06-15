@@ -41,6 +41,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enumerations\Decoration.cs" />
+    <Compile Include="Enumerations\Tile.cs" />
     <Compile Include="Objects\Abilties\Ability.cs" />
     <Compile Include="Objects\Abilties\TargetedAbility.cs" />
     <Compile Include="Objects\Game Objects\NPC.cs" />
