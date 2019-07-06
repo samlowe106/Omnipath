@@ -14,12 +14,21 @@ namespace Omnipath
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Rectangle screen;
+        Texture2D playerTexture;
+
+        #region GameObjects
+        Player player;
+        string settingsDataFilePath;
+        string playerDataFilePath;
+        #endregion
+
         #region Enums
         GameState gameState;
         #endregion
 
         #region Managers
-        NPCManager npcManager;
+        GameObjectManager<NPC> npcManager;
         #endregion
 
         #endregion
@@ -39,6 +48,23 @@ namespace Omnipath
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            // Locate files from which to read data
+            // playerDataFilePath = ;
+
+            // Initalize the screen width and height from the settings file
+            // screen = new Rectangle();
+
+            // Create new player and initialize their data from a file
+            player = new Player(playerTexture);
+            //  If data can't be found and read, prompt the player to make a new character
+            if (playerDataFilePath == null || !player.Initialize(/* Pass file to read data from here */))
+            {
+                // Prompt player to make new character
+            }
+
+            // Initialize manager objects
+            // npcManager = new GameObjectManager<NPC>();
 
             base.Initialize();
         }
@@ -79,10 +105,15 @@ namespace Omnipath
             switch(gameState)
             {
                 case GameState.Gameplay:
+                    // Process the player input
+                    player.ProcessInput(Keyboard.GetState());
+                    // Update managers
                     npcManager.Update();
                     break;
+
                 case GameState.LoadScreen:
                     break;
+
                 case GameState.Menu:
                     break;
             }
@@ -106,10 +137,15 @@ namespace Omnipath
             switch (gameState)
             {
                 case GameState.Gameplay:
+                    // Draw player
+                    player.Draw(spriteBatch);
+                    // Draw managers
                     npcManager.Draw(spriteBatch);
                     break;
+
                 case GameState.LoadScreen:
                     break;
+
                 case GameState.Menu:
                     break;
             }
