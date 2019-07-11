@@ -67,8 +67,8 @@ namespace Omnipath
         /// <param name="y"></param>
         public void FaceTowards(int x, int y)
         {
-            this.direction.X = x - this.Position.X;
-            this.direction.Y = y - this.Position.Y;
+            this.direction.X = x - this.Center.X;
+            this.direction.Y = y - this.Center.Y;
 
             // Plug Y and X into arctangent to calculate the angle
             angle = (float)Math.Atan2(direction.Y, direction.X);
@@ -91,7 +91,7 @@ namespace Omnipath
         /// <summary>
         /// The middle point of this object, equal to this.Rectangle.Center
         /// </summary>
-        public Point Position
+        public Point Center
         {
             get
             {
