@@ -19,6 +19,8 @@ namespace Omnipath
         protected Rectangle rectangle;  // Hitbox, position, width, height
         protected Texture2D texture;    // Texture
         protected bool active;
+        protected float angle;
+        protected Vector2 direction;
         #endregion
 
         #region Constructor
@@ -45,13 +47,47 @@ namespace Omnipath
         /// <summary>
         /// Updates this object
         /// </summary>
-        public virtual void Update()
-        {
+        public virtual void Update() { }
+        #endregion
 
+        #region Methods
+        /// <summary>
+        /// Orients this object to look at the specified subject
+        /// </summary>
+        /// <param name="subject">The IDisplayable to face towards</param>
+        public void FaceTowards(IDisplayable subject)
+        {
+            FaceTowards(subject.Rectangle.Center.X, subject.Rectangle.Center.Y);
         }
+
+        /// <summary>
+        /// Orients this object to look at the specified x y coordinate pair
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void FaceTowards(int x, int y)
+        {
+            this.direction.X = x - this.Position.X;
+            this.direction.Y = y - this.Position.Y;
+
+            // Plug Y and X into arctangent to calculate the angle
+            angle = (float)Math.Atan2(direction.Y, direction.X);
+        }
+
         #endregion
 
         #region Properties
+        /// <summary>
+        /// The angle that this object is facing
+        /// </summary>
+        public float Angle
+        {
+            get
+            {
+                return angle;
+            }
+        }
+        
         /// <summary>
         /// The middle point of this object, equal to this.Rectangle.Center
         /// </summary>
