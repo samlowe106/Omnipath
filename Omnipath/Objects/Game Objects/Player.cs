@@ -12,6 +12,9 @@ namespace Omnipath
 {
     class Player : GameObject
     {
+        #region Fields
+        #endregion
+
         /// <summary>
         /// Empty constructor; most of the initialization logic is done in the initalize method
         /// </summary>
@@ -59,19 +62,32 @@ namespace Omnipath
         public void ProcessInput(KeyboardState currentkbState, KeyboardState previouskbState,
             MouseState currentMouseState, MouseState previousMouseState)
         {
-            if (currentkbState.IsKeyDown(Keys.W) /*&&  aboveTilePassable */)
+            if (currentMouseState.RightButton == ButtonState.Pressed /* And mouse is on-screen */)
+            {
+                AStar(currentMouseState.Position);
+            }
+
+            foreach (Keys k in currentkbState.GetPressedKeys())
+            {
+                //if ()
+                //{
+
+                //}
+            }
+
+            if (currentkbState.IsKeyDown(Keys.Q) /*&&  aboveTilePassable */)
             {
                 
             }
-            if (currentkbState.IsKeyDown(Keys.A) /*&&  westTilePassable */)
+            if (currentkbState.IsKeyDown(Keys.W) /*&&  westTilePassable */)
             {
                 
             }
-            if (currentkbState.IsKeyDown(Keys.S) /*&&  southTilePassable */)
+            if (currentkbState.IsKeyDown(Keys.E) /*&&  southTilePassable */)
             {
                 
             }
-            if (currentkbState.IsKeyDown(Keys.D) /*&&  eastTilePassable */)
+            if (currentkbState.IsKeyDown(Keys.R) /*&&  eastTilePassable */)
             {
                 
             }
