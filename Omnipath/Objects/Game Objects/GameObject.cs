@@ -74,6 +74,13 @@ namespace Omnipath
             angle = (float)Math.Atan2(direction.Y, direction.X);
         }
 
+        /// <summary>
+        /// Pathfinds from current position to the specified point
+        /// </summary>
+        public void AStar(Point destination)
+        {
+
+        }
         #endregion
 
         #region Properties
