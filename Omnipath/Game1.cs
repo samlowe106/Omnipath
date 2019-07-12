@@ -105,8 +105,8 @@ namespace Omnipath
             switch(gameState)
             {
                 case GameState.Gameplay:
-                    // Process the player input
-                    player.ProcessInput(Keyboard.GetState());
+                    // Update the player
+                    player.Update();
                     // Update managers
                     npcManager.Update();
                     break;
