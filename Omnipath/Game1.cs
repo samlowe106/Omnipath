@@ -73,7 +73,7 @@ namespace Omnipath
             // screen = new Rectangle();
 
             // Create new player and initialize their data from a file
-            player = new Player(playerTexture);
+            player = new Player(playerTexture, controlMapping);
             //  If data can't be found and read, prompt the player to make a new character
             if (playerDataFilePath == null || !player.Initialize(/* Pass file to read data from here */))
             {
