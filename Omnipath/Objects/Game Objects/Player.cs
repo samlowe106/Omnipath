@@ -13,13 +13,18 @@ namespace Omnipath
     class Player : GameObject
     {
         #region Fields
+        Dictionary<Keys, PlayerAction> controlMapping;
         #endregion
 
         /// <summary>
-        /// Empty constructor; most of the initialization logic is done in the initalize method
+        /// Most of the initialization logic is done in the initalize method
         /// </summary>
         /// <param name="texture"></param>
-        public Player(Texture2D texture) : base(new Rectangle(), texture) { }
+        public Player(Texture2D texture, Dictionary<Keys, PlayerAction> controlMapping)
+            : base(new Rectangle(), texture)
+        {
+            this.controlMapping = controlMapping;
+        }
 
         /// <summary>
         /// Reads information about the Player from a file
@@ -67,31 +72,19 @@ namespace Omnipath
                 AStar(currentMouseState.Position);
             }
 
+            // Process keyboard input
             foreach (Keys k in currentkbState.GetPressedKeys())
             {
-                //if ()
-                //{
+                if (controlMapping.ContainsKey(k))
+                {
+                    switch (controlMapping[k])
+                    {
 
-                //}
-            }
 
-            if (currentkbState.IsKeyDown(Keys.Q) /*&&  aboveTilePassable */)
-            {
-                
+
+                    }
+                }
             }
-            if (currentkbState.IsKeyDown(Keys.W) /*&&  westTilePassable */)
-            {
-                
-            }
-            if (currentkbState.IsKeyDown(Keys.E) /*&&  southTilePassable */)
-            {
-                
-            }
-            if (currentkbState.IsKeyDown(Keys.R) /*&&  eastTilePassable */)
-            {
-                
-            }
-            
         }
     }
 }
