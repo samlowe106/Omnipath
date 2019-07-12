@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -16,6 +21,15 @@ namespace Omnipath
 
         Rectangle screen;
         Texture2D playerTexture;
+
+        Dictionary<Keys, PlayerAction> controlMapping;
+
+        KeyboardState currentkbState;
+        KeyboardState previouskbState;
+
+        MouseState currentMouseState;
+        MouseState previousMouseState;
+
 
         #region GameObjects
         Player player;
@@ -51,6 +65,9 @@ namespace Omnipath
 
             // Locate files from which to read data
             // playerDataFilePath = ;
+
+
+
 
             // Initalize the screen width and height from the settings file
             // screen = new Rectangle();
@@ -102,11 +119,17 @@ namespace Omnipath
 
             // TODO: Add your update logic here
 
+            // Update keyboard and mouse states
+            previouskbState = currentkbState;
+            previousMouseState = currentMouseState;
+            currentkbState = Keyboard.GetState();
+            currentMouseState = Mouse.GetState();
+
             switch(gameState)
             {
                 case GameState.Gameplay:
                     // Update the player
-                    player.Update();
+                    player.Update(currentkbState, previouskbState, currentMouseState, previousMouseState);
                     // Update managers
                     npcManager.Update();
                     break;
