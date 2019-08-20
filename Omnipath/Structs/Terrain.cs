@@ -22,7 +22,16 @@ namespace Omnipath
         private int frameNumber;
         #endregion
 
-        #region Constructor
+        #region Constructors
+        private Terrain(bool passable, int x, int y, GameObject occupant)
+        {
+            this.Passable = passable;
+            this.Active = true;
+            this.frameNumber = 0;
+            this.FrameCount = this.Textures.Length;
+            this.Rectangle = new Rectangle(x, y, DIMENSIONS, DIMENSIONS);
+        }
+         
         /// <summary>
         /// Constructs a terrain object that is not animated
         /// </summary>
@@ -30,16 +39,11 @@ namespace Omnipath
         /// <param name="passable"> if the terrain is passable</param>
         /// <param name="X"> the x location of the terrain </param>
         /// <param name="Y"> the y location of the terrain </param>
-        public Terrain(Texture2D texture, bool passable, int x, int y)
+        public Terrain(Texture2D texture, bool passable, int x, int y, GameObject occupant)
+            : this(passable, x, y, occupant)
         {
             this.Animated = false;
-            this.Textures = new Texture2D[1];
-            this.Textures[0] = texture;
-            this.Passable = passable;
-            this.Active = true;
-            this.frameNumber = 0;
-            this.FrameCount = this.Textures.Length;
-            this.Rectangle = new Rectangle(x, y, DIMENSIONS, DIMENSIONS);
+            this.Textures = new Texture2D[] { texture };
         }
 
         /// <summary>
@@ -49,15 +53,11 @@ namespace Omnipath
         /// <param name="passable"> if the object is passable</param>
         /// <param name="X"> the x location of the terrain</param>
         /// /// <param name="Y"> the y location of the terrain </param>
-        public Terrain(Texture2D[] textures, bool passable, int x, int y)
+        public Terrain(Texture2D[] textures, bool passable, int x, int y, GameObject occupant)
+            : this(passable, x, y, occupant)
         {
             this.Animated = true;
             this.Textures = textures;
-            this.Passable = passable;
-            this.Active = true;
-            this.frameNumber = 0;
-            this.FrameCount = this.Textures.Length;
-            this.Rectangle = new Rectangle(x, y, DIMENSIONS, DIMENSIONS);
         }
         #endregion
 
@@ -80,6 +80,11 @@ namespace Omnipath
         /// The textures that make up the terrain
         /// </summary>
         public Texture2D[] Textures { get; }
+
+        /// <summary>
+        /// The NPC or enemy that spawns when this tile is loaded in
+        /// </summary>
+        public GameObject Occupant { get; }
 
         /// <summary>
         /// If the terrain is passable by a player
