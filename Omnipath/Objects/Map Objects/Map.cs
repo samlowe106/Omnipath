@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Omnipath
 {
@@ -13,6 +16,11 @@ namespace Omnipath
     /// </summary>
     class Map
     {
+        #region Constants
+        const string TEXTURE_FILE = "";
+        #endregion
+
+        #region Fields
         private int mapWidth;
         private int mapHeight;
 
@@ -23,13 +31,17 @@ namespace Omnipath
         private int centerY;
 
         private Graph localMap;
+        #endregion
 
+        #region Constructor
         public Map(string fileName, int centerX, int centerY, int screenWidth, int screenHeight)
         {
             localMap = new Graph();
             Load(fileName);
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Loads map from a file
         /// </summary>
@@ -54,12 +66,45 @@ namespace Omnipath
                 //  centered on (centerX, centerY)
 
                 // Skip over unnecessary lines
-                // Repeat as necessary:
-                //      Skip over unnecessary X-coordinates
-                //      Read in tile and decoration data
-                //      Move to next line
-                
-                // Read in enemy spawn points once and only once
+                for(; ; )
+                {
+                    // Skip over unnecessary X-coordinates
+
+                    // Read in animation data for the tile
+                    bool animated = reader.ReadBoolean();
+                    // Texture2D[] animationFrames = new Texture2D[5];
+                    for (int i = 0; i < 5; ++i)
+                    {
+                        //animationFrames[i] = GetTexture(reader.ReadInt32());
+                    }
+
+                    // If the tile is animated, pass in all of the frames
+                    if (reader.ReadBoolean())
+                    {
+                        /*new Terrain(
+                            animationFrames,
+                            reader.ReadBoolean(),
+                            reader.ReadInt32(),
+                            reader.ReadInt32(),
+                            (NPCType)reader.ReadInt32());
+                            */
+                    }
+                    // Otherwise, only pass in the first
+                    else
+                    {
+                        /*new Terrain(
+                            animationFrames,
+                            reader.ReadBoolean(),
+                            reader.ReadInt32(),
+                            reader.ReadInt32(),
+                            (NPCType)reader.ReadInt32());
+                            */
+                    }
+
+                    //        
+                    //      Move to next line
+                }
+
             }
             // Catch any exceptions
             catch (Exception e)
@@ -76,6 +121,33 @@ namespace Omnipath
             }
         }
 
+        public Texture2D GetTexture()
+        {
+            // Establish the stream and reader as null
+            FileStream inStream = null;
+            BinaryReader reader = null;
+
+            // Try reading from the file
+            try
+            {
+                inStream = File.OpenRead(TEXTURE_FILE);
+                reader = new BinaryReader(inStream);
+            }
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                }
+            }
+        }
+        #endregion
+
+        #region Properties
         /// <summary>
         /// The maximum width of this map
         /// </summary>
@@ -97,6 +169,6 @@ namespace Omnipath
                 return mapHeight;
             }
         }
-
+        #endregion
     }
 }
