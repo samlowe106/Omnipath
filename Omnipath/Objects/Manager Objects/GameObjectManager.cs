@@ -52,11 +52,11 @@ namespace Omnipath
         /// <param name="sp"></param>
         public void Draw(SpriteBatch sp)
         {
-            foreach (T npc in npcs)
+            foreach (T obj in managedObjects)
             {
-                if (screen.Intersects(npc.Rectangle) && npc.Active)
+                if (screen.Intersects(obj.Rectangle) && obj.Active)
                 {
-                    npc.Draw(sp);
+                    obj.Draw(sp);
                 }
             }
         }
@@ -73,7 +73,7 @@ namespace Omnipath
         /// <param name="newNPC">New NPC</param>
         public void AddNPC(T newNPC)
         {
-            npcs.Add(newNPC);
+            managedObjects.Add(newNPC);
         }
         #endregion
 
