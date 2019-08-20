@@ -75,7 +75,7 @@ namespace Omnipath
                     // Texture2D[] animationFrames = new Texture2D[5];
                     for (int i = 0; i < 5; ++i)
                     {
-                        //animationFrames[i] = GetTexture(reader.ReadInt32());
+                        //animationFrames[i] = GetTexture((Tile)reader.ReadInt32());
                     }
 
                     // If the tile is animated, pass in all of the frames
@@ -121,30 +121,16 @@ namespace Omnipath
             }
         }
 
-        public Texture2D GetTexture()
+        /*public Texture2D GetTexture(Tile tileNumber)
         {
-            // Establish the stream and reader as null
-            FileStream inStream = null;
-            BinaryReader reader = null;
-
-            // Try reading from the file
-            try
+            // Determine the texture based on the specified tile number
+            switch (tileNumber)
             {
-                inStream = File.OpenRead(TEXTURE_FILE);
-                reader = new BinaryReader(inStream);
-            }
-            catch (Exception e)
-            {
-
-            }
-            finally
-            {
-                if (reader != null)
-                {
-                    reader.Close();
-                }
+                case Tile.Grassland:
+                    return GrassTexture;
             }
         }
+        */
         #endregion
 
         #region Properties
