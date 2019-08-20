@@ -41,8 +41,12 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enumerations\Decoration.cs" />
+    <Compile Include="Enumerations\PlayerAction.cs" />
+    <Compile Include="Enumerations\Tile.cs" />
     <Compile Include="Objects\Abilties\Ability.cs" />
     <Compile Include="Objects\Abilties\TargetedAbility.cs" />
+    <Compile Include="Objects\Data Structures\Graph.cs" />
     <Compile Include="Objects\Game Objects\NPC.cs" />
     <Compile Include="Enumerations\DamageType.cs" />
     <Compile Include="Enumerations\GameState.cs" />
@@ -50,7 +54,11 @@
     <Compile Include="Interfaces\IDamageable.cs" />
     <Compile Include="Interfaces\IDealDamage.cs" />
     <Compile Include="Interfaces\IDisplayable.cs" />
-    <Compile Include="Objects\Manager Objects\NPCManager.cs" />
+    <Compile Include="Objects\Game Objects\Player.cs" />
+    <Compile Include="Objects\Manager Objects\GameObjectManager.cs" />
+    <Compile Include="Objects\Map Objects\Map.cs" />
+    <Compile Include="Objects\Game Mechanics\Modifier.cs" />
+    <Compile Include="Objects\Game Mechanics\Resource.cs" />
     <Compile Include="Objects\UI Objects\Button.cs" />
     <Compile Include="Structs\DamageInstance.cs" />
     <Compile Include="Objects\Game Objects\GameObject.cs" />

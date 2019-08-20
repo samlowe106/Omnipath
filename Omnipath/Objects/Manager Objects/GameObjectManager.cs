@@ -12,24 +12,23 @@ namespace Omnipath
     /// <summary>
     /// Manages NPCs, calls update and draw methods, etc
     /// </summary>
-    class NPCManager
+    class GameObjectManager<T> where T : GameObject
     {
         #region Fields
-        List<NPC> npcs;
-        Rectangle screen;
+        private List<T> npcs;
+        private Rectangle screen;
         #endregion
 
         #region Constructor
-        public NPCManager(Rectangle screen, int count = -1)
+        public GameObjectManager(Rectangle screen)
         {
-            if (count > -1)
-            {
-                npcs = new List<NPC>(count);
-            }
-            else
-            {
-                npcs = new List<NPC>();
-            }
+            npcs = new List<T>();
+        }
+
+        
+        public GameObjectManager(Rectangle screen, List<T> objects)
+        {
+            npcs = objects;
         }
         #endregion
 
@@ -39,7 +38,7 @@ namespace Omnipath
         /// </summary>
         public void Update()
         {
-            foreach (GameObject npc in npcs)
+            foreach (T npc in npcs)
             {
                 if (npc.Active)
                 {
@@ -54,7 +53,7 @@ namespace Omnipath
         /// <param name="sp"></param>
         public void Draw(SpriteBatch sp)
         {
-            foreach (GameObject npc in npcs)
+            foreach (T npc in npcs)
             {
                 if (screen.Intersects(npc.Rectangle) && npc.Active)
                 {
@@ -67,9 +66,22 @@ namespace Omnipath
         /// Adds a new NPC to the list of current NPCs
         /// </summary>
         /// <param name="newNPC">New NPC</param>
-        public void AddNPC(NPC newNPC)
+        public void AddNPC(T newNPC)
         {
             npcs.Add(newNPC);
+        }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Returns number of NPCs currently being managed
+        /// </summary>
+        public int Count
+        {
+            get
+            {
+                return npcs.Count;
+            }
         }
         #endregion
     }

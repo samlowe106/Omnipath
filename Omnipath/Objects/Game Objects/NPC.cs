@@ -14,12 +14,17 @@ namespace Omnipath
     /// </summary>
     abstract class NPC : GameObject
     {
+
+
         public NPC(Rectangle rectangle, Texture2D texture) 
             : base(rectangle, texture)
         {
 
         }
 
-
+        /// <summary>
+        /// This NPC's health
+        /// </summary>
+        public Resource Health { get; }
     }
 }
