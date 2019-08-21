@@ -79,7 +79,13 @@ namespace Omnipath
             }
         }
 
-        public bool Active { get; }
+        /// <summary>
+        /// If this terrain is on-screen and drawable
+        /// </summary>
+        public bool Active
+        {
+            get;
+        }
 
         public Texture2D Texture
         {
@@ -90,12 +96,12 @@ namespace Omnipath
         }
 
         /// <summary>
-        /// a rectangle representing the hitbox of the terrain
+        /// a rectangle representing the terrain
         /// </summary>
         public Rectangle Rectangle { get; }
 
         /// <summary>
-        /// Maximum number of frames
+        /// Maximum number of frames in this terrain's animation cycle
         /// </summary>
         public int FrameCount { get; }
         #endregion
