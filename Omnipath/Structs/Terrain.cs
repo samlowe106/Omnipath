@@ -28,8 +28,9 @@ namespace Omnipath
         /// </summary>
         /// <param name="textures">the textures for the terrain</param>
         /// <param name="passable"> if the object is passable</param>
-        /// <param name="X"> the x location of the terrain</param>
-        /// /// <param name="Y"> the y location of the terrain </param>
+        /// <param name="x"> the x location of the terrain</param>
+        /// <param name="y"> the y location of the terrain </param>
+        /// <param name="occupant"> the gameobject that spawns when this terrain is loaded in </param>
         public Terrain(Texture2D[] textures, bool passable, int x, int y, GameObject occupant)
         {
             this.Textures = textures;
