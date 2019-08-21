@@ -23,7 +23,7 @@ namespace Omnipath
         Texture2D playerTexture;
 
         Dictionary<Keys, PlayerAction> controlMapping;
-        List<Texture2D> textures;
+        Texture2D[] textures;
 
         KeyboardState currentkbState;
         KeyboardState previouskbState;

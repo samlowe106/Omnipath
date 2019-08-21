@@ -22,30 +22,7 @@ namespace Omnipath
         private int frameNumber;
         #endregion
 
-        #region Constructors
-        private Terrain(bool passable, int x, int y, GameObject occupant)
-        {
-            this.Passable = passable;
-            this.Active = true;
-            this.frameNumber = 0;
-            this.FrameCount = this.Textures.Length;
-            this.Rectangle = new Rectangle(x, y, DIMENSIONS, DIMENSIONS);
-        }
-         
-        /// <summary>
-        /// Constructs a terrain object that is not animated
-        /// </summary>
-        /// <param name="texture"> the texture for the terrain</param>
-        /// <param name="passable"> if the terrain is passable</param>
-        /// <param name="X"> the x location of the terrain </param>
-        /// <param name="Y"> the y location of the terrain </param>
-        public Terrain(Texture2D texture, bool passable, int x, int y, GameObject occupant)
-            : this(passable, x, y, occupant)
-        {
-            this.Animated = false;
-            this.Textures = new Texture2D[] { texture };
-        }
-
+        #region Constructor
         /// <summary>
         /// Constructs a terrain object that is animated
         /// </summary>
@@ -54,10 +31,13 @@ namespace Omnipath
         /// <param name="X"> the x location of the terrain</param>
         /// /// <param name="Y"> the y location of the terrain </param>
         public Terrain(Texture2D[] textures, bool passable, int x, int y, GameObject occupant)
-            : this(passable, x, y, occupant)
         {
-            this.Animated = true;
             this.Textures = textures;
+            this.Passable = passable;
+            this.Active = true;
+            this.frameNumber = 0;
+            this.FrameCount = this.Textures.Length;
+            this.Rectangle = new Rectangle(x, y, DIMENSIONS, DIMENSIONS);
         }
         #endregion
 
@@ -67,9 +47,6 @@ namespace Omnipath
             if (this.Active)
             {
                 sp.Draw(this.Textures[FrameNumber], this.Rectangle, Color.White);
-            }    
-            if (this.Animated)
-            {
                 frameNumber = (frameNumber + 1) % FrameCount;
             }
         }
@@ -90,11 +67,6 @@ namespace Omnipath
         /// If the terrain is passable by a player
         /// </summary>
         public bool Passable { get; }
-
-        /// <summary>
-        /// if the texture is animated
-        /// </summary>
-        public bool Animated { get; }
 
         /// <summary>
         /// the current frame number (always 0 for non-animated terrains)

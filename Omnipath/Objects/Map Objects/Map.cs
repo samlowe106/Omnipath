@@ -21,6 +21,8 @@ namespace Omnipath
         #endregion
 
         #region Fields
+        private Texture2D[] textures;
+
         private int mapWidth;
         private int mapHeight;
 
@@ -34,8 +36,9 @@ namespace Omnipath
         #endregion
 
         #region Constructor
-        public Map(string fileName, int centerX, int centerY, int screenWidth, int screenHeight)
+        public Map(string fileName, int centerX, int centerY, int screenWidth, int screenHeight, Texture2D[] textures)
         {
+            this.textures = textures;
             localMap = new Graph();
             Load(fileName);
         }
@@ -71,36 +74,19 @@ namespace Omnipath
                     // Skip over unnecessary X-coordinates
 
                     // Read in animation data for the tile
-                    bool animated = reader.ReadBoolean();
-                    // Texture2D[] animationFrames = new Texture2D[5];
+                    Texture2D[] animationFrames = new Texture2D[5];
                     for (int i = 0; i < 5; ++i)
                     {
-                        //animationFrames[i] = GetTexture((Tile)reader.ReadInt32());
+                        animationFrames[i] = textures[reader.ReadInt32()];
                     }
 
-                    // If the tile is animated, pass in all of the frames
-                    if (reader.ReadBoolean())
-                    {
-                        /*new Terrain(
-                            animationFrames,
-                            reader.ReadBoolean(),
-                            reader.ReadInt32(),
-                            reader.ReadInt32(),
-                            (NPCType)reader.ReadInt32());
-                            */
-                    }
-                    // Otherwise, only pass in the first
-                    else
-                    {
-                        /*new Terrain(
-                            animationFrames,
-                            reader.ReadBoolean(),
-                            reader.ReadInt32(),
-                            reader.ReadInt32(),
-                            (NPCType)reader.ReadInt32());
-                            */
-                    }
-
+                    new Terrain(
+                        animationFrames,
+                        reader.ReadBoolean(),
+                        reader.ReadInt32(),
+                        reader.ReadInt32(),
+                        reader.ReadInt32());
+                        
                     //        
                     //      Move to next line
                 }
@@ -120,17 +106,6 @@ namespace Omnipath
                 }
             }
         }
-
-        /*public Texture2D GetTexture(Tile tileNumber)
-        {
-            // Determine the texture based on the specified tile number
-            switch (tileNumber)
-            {
-                case Tile.Grassland:
-                    return GrassTexture;
-            }
-        }
-        */
         #endregion
 
         #region Properties
