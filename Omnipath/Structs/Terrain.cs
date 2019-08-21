@@ -24,7 +24,7 @@ namespace Omnipath
 
         #region Constructor
         /// <summary>
-        /// Constructs a terrain object that is animated
+        /// A terrain struct; it's faster to do the assignments manually
         /// </summary>
         /// <param name="textures">the textures for the terrain</param>
         /// <param name="passable"> if the object is passable</param>
@@ -57,17 +57,17 @@ namespace Omnipath
         /// <summary>
         /// The textures that make up the terrain
         /// </summary>
-        public Texture2D[] Textures { get; }
+        public Texture2D[] Textures { get; set; }
 
         /// <summary>
         /// The NPC or enemy that spawns when this tile is loaded in
         /// </summary>
-        public GameObject Occupant { get; }
+        public GameObject Occupant { get; set; }
 
         /// <summary>
         /// If the terrain is passable by a player
         /// </summary>
-        public bool Passable { get; }
+        public bool Passable { get; set; }
 
         /// <summary>
         /// the current frame number (always 0 for non-animated terrains)
@@ -99,12 +99,12 @@ namespace Omnipath
         /// <summary>
         /// a rectangle representing the terrain
         /// </summary>
-        public Rectangle Rectangle { get; }
+        public Rectangle Rectangle { get; set; }
 
         /// <summary>
         /// Maximum number of frames in this terrain's animation cycle
         /// </summary>
-        public int FrameCount { get; }
+        public int FrameCount { get; set; }
         #endregion
     }
 }
