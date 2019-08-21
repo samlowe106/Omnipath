@@ -88,14 +88,16 @@ namespace Omnipath
                     }
                 }
 
+                // Read data from the current line
                 for (int i = 0; i < mapWidth; ++i)
                 {
-                    // Skip over unnecessary X-coordinates
+                    // Skip over unnecessary X-coordinates at the start of the current line
                     for (int j = 0; j < centerX - (loadedWidth / 2); ++j)
                     {
                         SkipTerrain(reader);
                     }
 
+                    // Load in the tiles that will be in the LoadedZone
                     for (int j = 0; j < loadedWidth; ++j)
                     {
                         // Reading data for the Terrain object
