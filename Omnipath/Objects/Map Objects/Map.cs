@@ -23,11 +23,14 @@ namespace Omnipath
         #region Fields
         private Texture2D[] textures;
 
+        private int activeWidth;
+        private int activeHeight;
+
+        private int loadedWidth;
+        private int loadedHeight;
+
         private int mapWidth;
         private int mapHeight;
-
-        private int screenWidth;
-        private int screenHeight;
 
         private int centerX;
         private int centerY;
@@ -36,7 +39,7 @@ namespace Omnipath
         #endregion
 
         #region Constructor
-        public Map(string fileName, int centerX, int centerY, int screenWidth, int screenHeight, Texture2D[] textures)
+        public Map(string fileName, int centerX, int centerY, int activeWidth, int activeHeight, int loadedWidth, int loadedHeight, Texture2D[] textures)
         {
             this.textures = textures;
             localMap = new Graph();
@@ -80,13 +83,13 @@ namespace Omnipath
                         animationFrames[i] = textures[reader.ReadInt32()];
                     }
 
-                    new Terrain(
+                    /*new Terrain(
                         animationFrames,
                         reader.ReadBoolean(),
                         reader.ReadInt32(),
                         reader.ReadInt32(),
                         reader.ReadInt32());
-                        
+                    */    
                     //        
                     //      Move to next line
                 }
@@ -110,9 +113,34 @@ namespace Omnipath
 
         #region Properties
         /// <summary>
+        /// The area on screen, and the zone in which GameObjects are active
+        /// </summary>
+        public Rectangle ActiveZone
+        {
+            get
+            {
+                return new Rectangle(centerX - (activeWidth / 2), centerY - (activeHeight / 2), activeWidth, activeHeight);
+            }
+        }
+        
+        /// <summary>
+        /// The area including the screen and the area just outside the screen, in which GameObjects are loaded in
+        /// (but not necessarily active)
+        /// Contains the ActiveZone in the center
+        /// </summary>
+        public Rectangle LoadedZone
+        {
+            get
+            {
+                return new Rectangle(centerX - (loadedWidth / 2), centerY - (loadedHeight / 2), loadedWidth, loadedHeight);
+            }
+        }
+
+
+        /// <summary>
         /// The maximum width of this map
         /// </summary>
-        public int Width
+        public int MapWidth
         {
             get
             {
@@ -123,7 +151,7 @@ namespace Omnipath
         /// <summary>
         /// The maximum height of this map
         /// </summary>
-        public int Height
+        public int MapHeight
         {
             get
             {
