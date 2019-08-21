@@ -55,7 +55,9 @@
     <Compile Include="Interfaces\IDamageable.cs" />
     <Compile Include="Interfaces\IDealDamage.cs" />
     <Compile Include="Interfaces\IDisplayable.cs" />
+    <Compile Include="Objects\Game Objects\PlaceHolderEnemy.cs" />
     <Compile Include="Objects\Game Objects\Player.cs" />
+    <Compile Include="Objects\Game Objects\SecondPlaceHolderEnemy.cs" />
     <Compile Include="Objects\Manager Objects\GameObjectManager.cs" />
     <Compile Include="Objects\Map Objects\Map.cs" />
     <Compile Include="Objects\Game Mechanics\Modifier.cs" />

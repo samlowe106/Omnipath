@@ -11,13 +11,6 @@ namespace Omnipath
 {
     class Terrain : IDisplayable
     {
-        #region Constants
-        /// <summary>
-        /// the dimensions of the square of the terrain
-        /// </summary>
-        private const int DIMENSIONS = 64;
-        #endregion
-
         #region Fields
         private int frameNumber;
         #endregion
@@ -31,14 +24,15 @@ namespace Omnipath
         /// <param name="x"> the x location of the terrain</param>
         /// <param name="y"> the y location of the terrain </param>
         /// <param name="occupant"> the gameobject that spawns when this terrain is loaded in </param>
-        public Terrain(Texture2D[] textures, bool passable, int x, int y, GameObject occupant)
+        public Terrain(Texture2D[] textures, bool passable, int x, int y, int dimensions, NPCType occupantID)
         {
             this.Textures = textures;
             this.Passable = passable;
             this.Active = true;
             this.frameNumber = 0;
             this.FrameCount = this.Textures.Length;
-            this.Rectangle = new Rectangle(x, y, DIMENSIONS, DIMENSIONS);
+            this.Rectangle = new Rectangle(x, y, dimensions, dimensions);
+            this.OccupantID = occupantID;
         }
         #endregion
 
@@ -62,7 +56,7 @@ namespace Omnipath
         /// <summary>
         /// The NPC or enemy that spawns when this tile is loaded in
         /// </summary>
-        public GameObject Occupant { get; set; }
+        public NPCType OccupantID { get; set; }
 
         /// <summary>
         /// If the terrain is passable by a player
