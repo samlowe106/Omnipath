@@ -107,12 +107,16 @@ namespace Omnipath
                             animationFrames[k] = textures[reader.ReadInt32()];
                         }
                         
-                        
                         terrain[i,j].Textures = animationFrames;
                         terrain[i,j].Passable = reader.ReadBoolean();
                         terrain[i,j].Rectangle = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), TERRAIN_DIMENSIONS, TERRAIN_DIMENSIONS);
                         terrain[i,j].OccupantID = (NPCType)reader.ReadInt32();
+                    }
 
+                    // Skip over unnecessary x coordinates at the end of the current line
+                    for (int j = 0; j < mapWidth - (centerX + (loadedWidth / 2)); ++j)
+                    {
+                        SkipTerrain(reader);
                     }
                 }
             }
@@ -159,6 +163,42 @@ namespace Omnipath
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Jumps from the start of the file to the Terrain data at a specific x, y coordinate
+        /// </summary>
+        public void JumpTo(BinaryReader reader, int x, int y)
+        {
+            int mapWidth = reader.ReadInt32();
+            // Throw an error if x is too large or small
+            if (x < 0 || x > MapWidth)
+            {
+                throw new IndexOutOfRangeException("X coordinate is out of range!");
+            }
+
+            // Throw an error if y is too large or small
+            int mapHeight = reader.ReadInt32();
+            if (y < 0 || y > MapHeight)
+            {
+                throw new IndexOutOfRangeException("Y coordinate is out of range!");
+            }
+            
+            // Skip unnecessary lines
+            for (int i = 0; i < y; ++i)
+            {
+                for (int j = 0; j < mapWidth; ++j)
+                {
+                    SkipTerrain(reader);
+                }
+            }
+
+            // Skip to the specified x coordinate
+            for (int i = 0; i < x; ++i)
+            {
+                SkipTerrain(reader);
+            }
+
         }
         #endregion
 
