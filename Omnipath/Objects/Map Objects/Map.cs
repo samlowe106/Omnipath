@@ -202,6 +202,46 @@ namespace Omnipath
             }
 
         }
+
+        /// <summary>
+        /// Loads a column of Terrain structs
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="columnX">The X coordinate of the column</param>
+        /// <param name="startY">The Y coordinate to start at</param>
+        public void LoadColumn(BinaryReader reader, int columnX, int startY)
+        {
+            // Jump to the desired column
+            JumpTo(reader, columnX, startY);
+
+            for (int i = 0; i < loadedHeight; ++i)
+            {
+                // TODO: Read data about the Terrain
+
+                // Skip to the next Terrain in the column
+                for (int j = 0; j < mapWidth - 1; ++j)
+                {
+                    SkipTerrain(reader);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Loads a row of Terrain structs
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="startX">The X coordinate to start at</param>
+        /// <param name="rowY">The Y coordinate of the row</param>
+        public void LoadRow(BinaryReader reader, int startX, int rowY)
+        {
+            // Jump to the desired column
+            JumpTo(reader, startX, rowY);
+
+            for (int i = 0; i < loadedWidth; ++i)
+            {
+                // Read data about the terrain
+            }
+        }
         #endregion
 
         #region Properties
