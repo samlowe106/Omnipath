@@ -151,14 +151,11 @@ namespace Omnipath
         #endregion
 
         #region Properties
-        /// <summary>
-        /// 2d array of vertices in the graph
-        /// </summary>
-        public Terrain[,] Vertices
+        public Terrain this[int x, int y]
         {
             get
             {
-                return terrainArray;
+                return terrainArray[x, y];
             }
         }
         #endregion
