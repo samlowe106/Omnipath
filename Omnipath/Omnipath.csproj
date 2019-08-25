@@ -44,7 +44,7 @@
     <Compile Include="Enumerations\Decoration.cs" />
     <Compile Include="Enumerations\NPCType.cs" />
     <Compile Include="Enumerations\PlayerAction.cs" />
-    <Compile Include="Enumerations\Tile.cs" />
+    <Compile Include="Enumerations\TextureID.cs" />
     <Compile Include="Objects\Abilties\Ability.cs" />
     <Compile Include="Objects\Abilties\TargetedAbility.cs" />
     <Compile Include="Objects\Data Structures\Graph.cs" />
