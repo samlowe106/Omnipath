@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Omnipath
 {
-    struct Terrain : IDisplayable
+    class Terrain : IDisplayable
     {
         #region Fields
         private int frameNumber;
