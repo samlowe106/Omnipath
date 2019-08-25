@@ -11,53 +11,28 @@ namespace Omnipath
 {
     class Terrain : IDisplayable
     {
-        #region Constants
-        /// <summary>
-        /// the dimensions of the square of the terrain
-        /// </summary>
-        private const int DIMENSIONS = 64;
-        #endregion
-
         #region Fields
         private int frameNumber;
         #endregion
 
         #region Constructor
         /// <summary>
-        /// Constructs a terrain object that is not animated
-        /// </summary>
-        /// <param name="texture"> the texture for the terrain</param>
-        /// <param name="passable"> if the terrain is passable</param>
-        /// <param name="X"> the x location of the terrain </param>
-        /// <param name="Y"> the y location of the terrain </param>
-        public Terrain(Texture2D texture, bool passable, int x, int y)
-        {
-            this.Animated = false;
-            this.Textures = new Texture2D[1];
-            this.Textures[0] = texture;
-            this.Passable = passable;
-            this.Active = true;
-            this.frameNumber = 0;
-            this.FrameCount = this.Textures.Length;
-            this.Rectangle = new Rectangle(x, y, DIMENSIONS, DIMENSIONS);
-        }
-
-        /// <summary>
-        /// Constructs a terrain object that is animated
+        /// A terrain struct; it's faster to do the assignments manually
         /// </summary>
         /// <param name="textures">the textures for the terrain</param>
         /// <param name="passable"> if the object is passable</param>
-        /// <param name="X"> the x location of the terrain</param>
-        /// /// <param name="Y"> the y location of the terrain </param>
-        public Terrain(Texture2D[] textures, bool passable, int x, int y)
+        /// <param name="x"> the x location of the terrain</param>
+        /// <param name="y"> the y location of the terrain </param>
+        /// <param name="occupant"> the gameobject that spawns when this terrain is loaded in </param>
+        public Terrain(Texture2D[] textures, bool passable, int x, int y, int dimensions, NPCType occupantID)
         {
-            this.Animated = true;
             this.Textures = textures;
             this.Passable = passable;
             this.Active = true;
             this.frameNumber = 0;
             this.FrameCount = this.Textures.Length;
-            this.Rectangle = new Rectangle(x, y, DIMENSIONS, DIMENSIONS);
+            this.Rectangle = new Rectangle(x, y, dimensions, dimensions);
+            this.OccupantID = occupantID;
         }
         #endregion
 
@@ -67,9 +42,6 @@ namespace Omnipath
             if (this.Active)
             {
                 sp.Draw(this.Textures[FrameNumber], this.Rectangle, Color.White);
-            }    
-            if (this.Animated)
-            {
                 frameNumber = (frameNumber + 1) % FrameCount;
             }
         }
@@ -79,17 +51,17 @@ namespace Omnipath
         /// <summary>
         /// The textures that make up the terrain
         /// </summary>
-        public Texture2D[] Textures { get; }
+        public Texture2D[] Textures { get; set; }
+
+        /// <summary>
+        /// The NPC or enemy that spawns when this tile is loaded in
+        /// </summary>
+        public NPCType OccupantID { get; set; }
 
         /// <summary>
         /// If the terrain is passable by a player
         /// </summary>
-        public bool Passable { get; }
-
-        /// <summary>
-        /// if the texture is animated
-        /// </summary>
-        public bool Animated { get; }
+        public bool Passable { get; set; }
 
         /// <summary>
         /// the current frame number (always 0 for non-animated terrains)
@@ -102,7 +74,13 @@ namespace Omnipath
             }
         }
 
-        public bool Active { get; }
+        /// <summary>
+        /// If this terrain is on-screen and drawable
+        /// </summary>
+        public bool Active
+        {
+            get;
+        }
 
         public Texture2D Texture
         {
@@ -113,14 +91,14 @@ namespace Omnipath
         }
 
         /// <summary>
-        /// a rectangle representing the hitbox of the terrain
+        /// a rectangle representing the terrain
         /// </summary>
-        public Rectangle Rectangle { get; }
+        public Rectangle Rectangle { get; set; }
 
         /// <summary>
-        /// Maximum number of frames
+        /// Maximum number of frames in this terrain's animation cycle
         /// </summary>
-        public int FrameCount { get; }
+        public int FrameCount { get; set; }
         #endregion
     }
 }

@@ -10,6 +10,11 @@ using Microsoft.Xna.Framework.Input;
 namespace Omnipath
 {
     /// <summary>
+    /// Delegate for when this ability is activated (the associated key is pressed)
+    /// </summary>
+    public delegate void OnUse();
+
+    /// <summary>
     /// Abstract class for abilities which players and NPCs can use
     /// May include a heal, an attack, a teleport, etc.
     /// </summary>

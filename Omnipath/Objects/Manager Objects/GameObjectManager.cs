@@ -15,20 +15,19 @@ namespace Omnipath
     class GameObjectManager<T> where T : GameObject
     {
         #region Fields
-        private List<T> npcs;
+        private List<T> managedObjects;
         private Rectangle screen;
         #endregion
 
         #region Constructor
         public GameObjectManager(Rectangle screen)
         {
-            npcs = new List<T>();
+            managedObjects = new List<T>();
         }
 
-        
         public GameObjectManager(Rectangle screen, List<T> objects)
         {
-            npcs = objects;
+            managedObjects = objects;
         }
         #endregion
 
@@ -38,11 +37,11 @@ namespace Omnipath
         /// </summary>
         public void Update()
         {
-            foreach (T npc in npcs)
+            foreach (T obj in managedObjects)
             {
-                if (npc.Active)
+                if (obj.Active)
                 {
-                    npc.Update();
+                    obj.Update();
                 }
             }
         }
@@ -53,13 +52,19 @@ namespace Omnipath
         /// <param name="sp"></param>
         public void Draw(SpriteBatch sp)
         {
-            foreach (T npc in npcs)
+            foreach (T obj in managedObjects)
             {
-                if (screen.Intersects(npc.Rectangle) && npc.Active)
+                if (screen.Intersects(obj.Rectangle) && obj.Active)
                 {
-                    npc.Draw(sp);
+                    obj.Draw(sp);
                 }
             }
+        }
+
+        /// <returns>True if this game object manager is managing the specified object</returns>
+        public bool IsManaged(T obj)
+        {
+            return managedObjects.Contains(obj);
         }
 
         /// <summary>
@@ -68,7 +73,7 @@ namespace Omnipath
         /// <param name="newNPC">New NPC</param>
         public void AddNPC(T newNPC)
         {
-            npcs.Add(newNPC);
+            managedObjects.Add(newNPC);
         }
         #endregion
 
@@ -80,7 +85,7 @@ namespace Omnipath
         {
             get
             {
-                return npcs.Count;
+                return managedObjects.Count;
             }
         }
         #endregion
