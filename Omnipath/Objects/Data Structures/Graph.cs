@@ -6,60 +6,61 @@ using System.Threading.Tasks;
 
 namespace Omnipath
 {
-    class Graph
+    class Graph<T>
     {
-        // Constants
-        private const int COUNT = 5;
-        // Fields
-        private Dictionary<string, List<Terrain>> adjacencies;
-        private Dictionary<string, Terrain> vertices;
-        private Terrain[] TerrainArray;
+        #region Fields
+        private Dictionary<Terrain, List<Terrain>> adjacencies;
+        private Terrain[,] terrainArray;
         private int[,] adjacencyGrid;
+        #endregion
 
-        // Constructor
+        #region Constructor
         public Graph() { }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Performs a depth-first search on the graph
         /// </summary>
         /// <param name="name">The name of the Terrain at which to start</param>
-        public void DepthFirst(string name)
+        public void DepthFirst(Terrain tile)
         {
-            // Return if the specified name is unrecognized
-            if (!adjacencies.ContainsKey(name))
+            // Throw an error if the specified tile is unrecognized
+            if (!adjacencies.ContainsKey(tile))
             {
-                Console.WriteLine("Invalid name!");
-                return;
+                throw new KeyNotFoundException("The specified tile couldn't be found in this graph!");
             }
             Reset();
             Stack<Terrain> TerrainStack = new Stack<Terrain>();
 
             // Get the current Terrain, print its name, add it to the stack,
             //  mark is as visited
-            TerrainStack.Push(vertices[name]);
-            vertices[name].Visited = true;
+            TerrainStack.Push(tile);
+            tile.Visited = true;
 
             // While there's something on the stack:
             while (TerrainStack.Count > 0)
             {
                 Terrain currentTerrain = TerrainStack.Peek();
                 bool foundAdjacentUnvisited = false;
-                // Loop through the list of adjacencies to find an adjacent and
-                //  unvisited Terrain
-                foreach (Terrain v in adjacencies[currentTerrain.Name])
+                // Loop through the list of adjacencies to find an adjacent and unvisited Terrain
+                for (int i = 0; i < adjacencies[currentTerrain].Count; ++i)
                 {
-                    // When an unvisited Terrain has been found, print its name,
-                    //  add it to the stack, and mark is as visited
-                    if (!v.Visited)
+                    // When an unvisited Terrain has been found, add it to the stack, and mark is as visited
+                    if (!adjacencies[currentTerrain][i].Visited)
                     {
-                        Console.WriteLine(v.Name);
-                        TerrainStack.Push(v);
-                        v.Visited = true;
+                        // These assignments are necessary to change the Visited property of the Terrain to true
+                        Terrain visitedTerrain = adjacencies[currentTerrain][i];
+                        visitedTerrain.Visited = true;
+                        adjacencies[currentTerrain][i] = visitedTerrain;
+                        // Push that visited terriain to the stack and
+                        //  note that an adjacent unvisited piece of terrain has been found
+                        TerrainStack.Push(adjacencies[currentTerrain][i]);
                         foundAdjacentUnvisited = true;
                     }
                 }
-                // If an adjacent, unvisited Terraint wasn't found,
-                //  pop the current Terrain off the stack
+
+                // If an adjacent, unvisited Terraint wasn't found, pop the current Terrain off the stack
                 if (!foundAdjacentUnvisited)
                 {
                     TerrainStack.Pop();
@@ -70,14 +71,15 @@ namespace Omnipath
         /// <param name="name">The name of a Terrain</param>
         /// <returns>
         /// The first unvisited Terrain adjacent to the specified Terrain
+        /// Null if no adjacent unvisited Terrain could be found
         /// </returns>
-        public Terrain GetAdjacentUnvisited(string name)
+        public Terrain? GetAdjacentUnvisited(Terrain tile)
         {
             // Ensure that the specified name is in the dictionary
-            if (adjacencies.ContainsKey(name))
+            if (adjacencies.ContainsKey(tile))
             {
                 // Loop through each adjacent Terrain, returning the first unvisited adjacent Terrain
-                foreach (Terrain v in adjacencies[name])
+                foreach (Terrain v in adjacencies[tile])
                 {
                     if (!v.Visited)
                     {
@@ -91,96 +93,75 @@ namespace Omnipath
         }
 
         /// <summary>
-        /// Resets each Terrain's visited value to false
+        /// Resets each Terrain's Visited value to false
         /// </summary>
         public void Reset()
         {
-            foreach (Terrain v in TerrainArray)
+            for (int i = 0; i < terrainArray.GetLength(0); ++i)
             {
-                v.Visited = false;
+                for (int j = 0; j < terrainArray.GetLength(1); ++i)
+                {
+                    terrainArray[i, j].Visited = false;
+                }
             }
         }
 
-        /// <param name="room">
-        /// Room whose adjacencies will be returned
-        /// </param>
         /// <returns>
-        /// A list of the rooms adjacent to the specified room;
-        /// null if the specified room does not exits
+        /// List of tiles adjacent to the specified tile
+        /// null if the specified tile does not exist
         /// </returns>
-        public List<Terrain> GetAdjacentRooms(string room)
+        public List<Terrain> GetAdjacencies(Terrain tile)
         {
-            if (adjacencies.ContainsKey(room))
+            if (adjacencies.ContainsKey(tile))
             {
-                return adjacencies[room];
+                return adjacencies[tile];
             }
             return null;
         }
 
-        /// <param name="room1">
-        /// The first room
+        /// <param name="tile1">
+        /// The first tile
         /// </param>
-        /// <param name="room2">
-        /// The second room
+        /// <param name="tile2">
+        /// The second tile
         /// </param>
         /// <returns>
-        /// True if room2 is adjacent to room1, else false
+        /// True if tile2 is adjacent to tile1, else false
         /// </returns>
-        public bool IsConnected(string room1, string room2)
+        public bool IsConnected(Terrain tile1, Terrain tile2)
         {
-            // If one of the rooms isn't recognized, return false
-            if (!(adjacencies.ContainsKey(room1) && adjacencies.ContainsKey(room2)))
+            // If one of the tiles is unrecognized, return false
+            if (!(adjacencies.ContainsKey(tile1) && adjacencies.ContainsKey(tile2)))
             {
                 return false;
             }
-            List<Terrain> adjacentRooms = GetAdjacentRooms(room1);
-            // Search through room1's adjacencies for room2; if it's found, return true
-            foreach (Terrain room in adjacentRooms)
+            List<Terrain> adjacenttiles = GetAdjacencies(tile1);
+            // Search through tile1's adjacencies for tile2; if it's found, return true
+            foreach (Terrain tile in adjacenttiles)
             {
-                if (room.Name == room2)
+                if (ReferenceEquals(tile, tile2))
                 {
                     return true;
                 }
             }
-            // room2 wasn't found in room1's adjacencies, return false
+            // tile2 wasn't found in tile1's adjacencies, return false
             return false;
         }
 
-        /// <returns>
-        /// A description of the specified room
-        /// </returns>
-        public string GetDescription(string room)
-        {
-            foreach (Terrain v in TerrainArray)
-            {
-                if (v.Name == room)
-                {
-                    return v.ToString();
-                }
-            }
-            return null;
-        }
+        #endregion
 
-        /// <summary>
-        /// Lists all the vertices in the graph
-        /// </summary>
-        public void ListAllVertices()
-        {
-            foreach (Terrain v in TerrainArray)
-            {
-                Console.WriteLine(v);
-            }
-        }
 
+        #region Properties
         /// <summary>
-        /// List of vertices in the graph
+        /// 2d array of vertices in the graph
         /// </summary>
-        public Terrain[] Vertices
+        public Terrain[,] Vertices
         {
             get
             {
-                return TerrainArray;
+                return terrainArray;
             }
         }
+        #endregion
     }
 }
