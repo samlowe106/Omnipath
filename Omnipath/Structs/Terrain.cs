@@ -99,6 +99,11 @@ namespace Omnipath
         /// Maximum number of frames in this terrain's animation cycle
         /// </summary>
         public int FrameCount { get; set; }
+
+        /// <summary>
+        /// If this Terrain has been visited by a depth-first search
+        /// </summary>
+        public bool Visited { get; set; }
         #endregion
     }
 }
