@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
 
 namespace Omnipath
 {
@@ -19,14 +20,14 @@ namespace Omnipath
         /// <summary>
         /// A terrain struct; it's faster to do the assignments manually
         /// </summary>
-        /// <param name="textures">the textures for the terrain</param>
+        /// <param name="textures">The textures for the terrain</param>
         /// <param name="passable"> if the object is passable</param>
         /// <param name="x"> the x location of the terrain</param>
         /// <param name="y"> the y location of the terrain </param>
         /// <param name="occupant"> the gameobject that spawns when this terrain is loaded in </param>
-        public Terrain(Texture2D[] textures, bool passableNorth, bool passableEast, bool passableWest, bool passableSouth, int x, int y, int dimensions, NPCType occupantID)
+        public Terrain(Texture2D[] animationFrames, bool passableNorth, bool passableEast, bool passableWest, bool passableSouth, int x, int y, int dimensions, NPCType occupantID)
         {
-            this.Textures = textures;
+            this.Textures = animationFrames;
             this.PassableNorth = passableNorth;
             this.PassableEast = passableEast;
             this.PassableSouth = passableSouth;
@@ -36,6 +37,28 @@ namespace Omnipath
             this.FrameCount = this.Textures.Length;
             this.Rectangle = new Rectangle(x, y, dimensions, dimensions);
             this.OccupantID = occupantID;
+            this.Visited = false;
+        }
+
+        /// <param name="reader">The binaryreader from which to read the data for this Terrain</param>
+        /// <param name="dimensions">Width and height, in pixels, of this Terrain</param>
+        /// <param name="textures">Texture array used to associate IDs with Texture2Ds</param>
+        public Terrain(BinaryReader reader, int dimensions, Texture2D[] textures)
+        {
+            Textures = new Texture2D[5];
+            for (int i = 0; i < 5; ++i)
+            {
+                Textures[i] = textures[reader.ReadInt32()];
+            }
+            this.PassableNorth = reader.ReadBoolean();
+            this.PassableEast = reader.ReadBoolean();
+            this.PassableSouth = reader.ReadBoolean();
+            this.PassableWest = reader.ReadBoolean();
+            this.Active = true;
+            this.frameNumber = 0;
+            this.FrameCount = this.Textures.Length;
+            this.Rectangle = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), dimensions, dimensions);
+            this.OccupantID = (NPCType)reader.ReadInt32();
             this.Visited = false;
         }
         #endregion

@@ -27,6 +27,9 @@ namespace Omnipath
         #endregion
 
         #region Fields
+        /// <summary>
+        /// Dictionary associating each Terrain with the Terrain adjacent (and reachable) from it
+        /// </summary>
         private Dictionary<Terrain, List<Terrain>> adjacencies;
         private Terrain[,] terrainArray;
 
@@ -37,6 +40,8 @@ namespace Omnipath
 
         private int loadedWidth;
         private int loadedHeight;
+
+        private readonly int dimensions;
 
         /// <summary>
         /// The maximum width of this map
@@ -52,7 +57,7 @@ namespace Omnipath
         #endregion
 
         #region Constructor
-        public Map(string fileName, GameObject centerObject, int activeWidth, int activeHeight, int loadedWidth, int loadedHeight, Texture2D[] textures)
+        public Map(string fileName, GameObject centerObject, int activeWidth, int activeHeight, int loadedWidth, int loadedHeight, int dimensions, Texture2D[] textures)
         {
             this.textures = textures;
             this.activeWidth = activeWidth;
@@ -60,6 +65,7 @@ namespace Omnipath
             this.loadedWidth = loadedWidth;
             this.loadedHeight = loadedHeight;
             this.centerObject = centerObject;
+            this.dimensions = dimensions;
 
             #region Read map data from file
             FileStream inStream = null;
@@ -71,7 +77,6 @@ namespace Omnipath
                 reader = new BinaryReader(inStream);
 
                 // Begin reading data from the file
-
                 MapWidth = reader.ReadInt32();
                 MapHeight = reader.ReadInt32();
 
@@ -85,7 +90,7 @@ namespace Omnipath
                 {
                     for (int j = 0; j < MapWidth; ++j)
                     {
-                        SkipTerrain(reader);
+                        new Terrain(reader, dimensions, textures);
                     }
                 }
 
@@ -95,31 +100,19 @@ namespace Omnipath
                     // Skip over unnecessary X-coordinates at the start of the current line
                     for (int j = 0; j < CenterX - (loadedWidth / 2); ++j)
                     {
-                        SkipTerrain(reader);
+                        new Terrain(reader, dimensions, textures);
                     }
 
                     // Load in the tiles that will be in the LoadedZone
                     for (int j = 0; j < loadedWidth; ++j)
                     {
-                        // Reading data for the Terrain object
-
-                        // Read in animation data for the tile
-                        Texture2D[] animationFrames = new Texture2D[5];
-                        for (int k = 0; k < 5; ++i)
-                        {
-                            animationFrames[k] = textures[reader.ReadInt32()];
-                        }
-
-                        terrainArray[i, j].Textures = animationFrames;
-                        terrainArray[i, j].PassableNorth = reader.ReadBoolean();
-                        terrainArray[i, j].Rectangle = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), TERRAIN_DIMENSIONS, TERRAIN_DIMENSIONS);
-                        terrainArray[i, j].OccupantID = (NPCType)reader.ReadInt32();
+                        terrainArray[i, j] = new Terrain(reader, dimensions, textures);
                     }
 
                     // Skip over unnecessary x coordinates at the end of the current line
                     for (int j = 0; j < MapWidth - (CenterX + (loadedWidth / 2)); ++j)
                     {
-                        SkipTerrain(reader);
+                        new Terrain(reader, dimensions, textures);
                     }
                 }
             }
@@ -329,19 +322,6 @@ namespace Omnipath
             return false;
         }
 
-        /// <summary>
-        /// Skips over a Terrain object; 8 32-bit Integers and a Boolean
-        /// </summary>
-        /// <param name="reader"></param>
-        private void SkipTerrain(BinaryReader reader)
-        {
-            for (int k = 0; k < 8; ++k)
-            {
-                reader.ReadInt32();
-            }
-            reader.ReadBoolean();
-        }
-
         /// <param name="identifier">An ID for a corresponding GameObject</param>
         /// <param name="coords">Where that GameObject will be placed</param>
         /// <returns></returns>
@@ -383,14 +363,14 @@ namespace Omnipath
             {
                 for (int j = 0; j < MapWidth; ++j)
                 {
-                    SkipTerrain(reader);
+                    new Terrain(reader, dimensions, textures);
                 }
             }
 
             // Skip to the specified x coordinate
             for (int i = 0; i < x; ++i)
             {
-                SkipTerrain(reader);
+                new Terrain(reader, dimensions, textures);
             }
 
         }
