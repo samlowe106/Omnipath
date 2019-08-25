@@ -104,7 +104,7 @@ namespace Omnipath
                         }
 
                         terrainArray[i, j].Textures = animationFrames;
-                        terrainArray[i, j].Passable = reader.ReadBoolean();
+                        terrainArray[i, j].PassableNorth = reader.ReadBoolean();
                         terrainArray[i, j].Rectangle = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), TERRAIN_DIMENSIONS, TERRAIN_DIMENSIONS);
                         terrainArray[i, j].OccupantID = (NPCType)reader.ReadInt32();
                     }
@@ -243,7 +243,7 @@ namespace Omnipath
             return null;
         }
 
-        public Terrain GetAdjacentPassable(Terrain tile)
+        /*public Terrain GetAdjacentPassable(Terrain tile)
         {
             // Ensure that the specified name is in the dictionary
             if (adjacencies.ContainsKey(tile))
@@ -260,7 +260,7 @@ namespace Omnipath
             // Return null if the specified name is invalid
             //  or if no unvisited adjacent Terrain could be found
             return null;
-        }
+        }*/
 
         /// <summary>
         /// Resets each Terrain's Visited value to false

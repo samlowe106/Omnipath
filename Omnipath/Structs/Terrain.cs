@@ -24,10 +24,13 @@ namespace Omnipath
         /// <param name="x"> the x location of the terrain</param>
         /// <param name="y"> the y location of the terrain </param>
         /// <param name="occupant"> the gameobject that spawns when this terrain is loaded in </param>
-        public Terrain(Texture2D[] textures, bool passable, int x, int y, int dimensions, NPCType occupantID)
+        public Terrain(Texture2D[] textures, bool passableNorth, bool passableEast, bool passableWest, bool passableSouth, int x, int y, int dimensions, NPCType occupantID)
         {
             this.Textures = textures;
-            this.Passable = passable;
+            this.PassableNorth = passableNorth;
+            this.PassableEast = passableEast;
+            this.PassableSouth = passableSouth;
+            this.PassableWest = passableWest;
             this.Active = true;
             this.frameNumber = 0;
             this.FrameCount = this.Textures.Length;
@@ -60,9 +63,24 @@ namespace Omnipath
         public NPCType OccupantID { get; set; }
 
         /// <summary>
-        /// If the terrain is passable by a player
+        /// If the terrain can be entered from the North
         /// </summary>
-        public bool Passable { get; set; }
+        public bool PassableNorth { get; set; }
+
+        /// <summary>
+        /// If the terrain can be entered from the East
+        /// </summary>
+        public bool PassableEast { get; set; }
+
+        /// <summary>
+        /// If the terrain can be entered from the South
+        /// </summary>
+        public bool PassableSouth { get; set; }
+
+        /// <summary>
+        /// If the terrain can be entered from the West
+        /// </summary>
+        public bool PassableWest { get; set; }
 
         /// <summary>
         /// the current frame number (always 0 for non-animated terrains)
