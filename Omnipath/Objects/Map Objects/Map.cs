@@ -224,7 +224,7 @@ namespace Omnipath
         /// The first unvisited Terrain adjacent to the specified Terrain
         /// Null if no adjacent unvisited Terrain could be found
         /// </returns>
-        public Terrain? GetAdjacentUnvisited(Terrain tile)
+        public Terrain GetAdjacentUnvisited(Terrain tile)
         {
             // Ensure that the specified name is in the dictionary
             if (adjacencies.ContainsKey(tile))
@@ -243,7 +243,7 @@ namespace Omnipath
             return null;
         }
 
-        public Terrain? GetAdjacentPassable(Terrain tile)
+        public Terrain GetAdjacentPassable(Terrain tile)
         {
             // Ensure that the specified name is in the dictionary
             if (adjacencies.ContainsKey(tile))
