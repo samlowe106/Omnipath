@@ -14,7 +14,7 @@ namespace Omnipath
     /// A playable area loaded from a file
     /// Centers on the camera and dynamically loads/unloads terrain based on the screen width/height
     /// </summary>
-    class Map : Graph
+    class Map
     {
         /* Note - centerY INCREASES as it moves farther South, and DECREASES as it moves North */
 
@@ -27,6 +27,9 @@ namespace Omnipath
         #endregion
 
         #region Fields
+        private Dictionary<Terrain, List<Terrain>> adjacencies;
+        private Terrain[,] terrainArray;
+
         private Texture2D[] textures;
 
         private int activeWidth;
@@ -40,30 +43,21 @@ namespace Omnipath
 
         private int centerX;
         private int centerY;
-
-        private Graph localMap;
         #endregion
 
         #region Constructor
         public Map(string fileName, int centerX, int centerY, int activeWidth, int activeHeight, int loadedWidth, int loadedHeight, Texture2D[] textures)
         {
             this.textures = textures;
-            localMap = new Graph();
-            Load(fileName);
-        }
-        #endregion
+            this.activeWidth = activeWidth;
+            this.activeHeight = activeHeight;
+            this.loadedWidth = loadedWidth;
+            this.loadedHeight = loadedHeight;
 
-        #region Methods
-        /// <summary>
-        /// Loads map from a file
-        /// </summary>
-        public void Load(string fileName)
-        {
-            // Establish the stream and reader as null
+            #region Read map data from file
             FileStream inStream = null;
             BinaryReader reader = null;
 
-            // Try reading from the file
             try
             {
                 inStream = File.OpenRead(fileName);
@@ -74,7 +68,7 @@ namespace Omnipath
                 mapWidth = reader.ReadInt32();
                 mapHeight = reader.ReadInt32();
 
-                Terrain[,] terrain = new Terrain[mapWidth, mapHeight];
+                terrainArray = new Terrain[mapWidth, mapHeight];
 
                 // Read map data to create a rectangle (with dimensions based on the screenWidth and screenHeight)
                 //  centered on (centerX, centerY)
@@ -108,11 +102,11 @@ namespace Omnipath
                         {
                             animationFrames[k] = textures[reader.ReadInt32()];
                         }
-                        
-                        terrain[i,j].Textures = animationFrames;
-                        terrain[i,j].Passable = reader.ReadBoolean();
-                        terrain[i,j].Rectangle = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), TERRAIN_DIMENSIONS, TERRAIN_DIMENSIONS);
-                        terrain[i,j].OccupantID = (NPCType)reader.ReadInt32();
+
+                        terrainArray[i, j].Textures = animationFrames;
+                        terrainArray[i, j].Passable = reader.ReadBoolean();
+                        terrainArray[i, j].Rectangle = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), TERRAIN_DIMENSIONS, TERRAIN_DIMENSIONS);
+                        terrainArray[i, j].OccupantID = (NPCType)reader.ReadInt32();
                     }
 
                     // Skip over unnecessary x coordinates at the end of the current line
@@ -135,7 +129,195 @@ namespace Omnipath
                     reader.Close();
                 }
             }
+            #endregion
         }
+        #endregion
+
+        #region Methods
+        /// <param name="xCoord"></param>
+        /// <param name="yCoord"></param>
+        /// <returns>A list of all the terrain adjacent to the specified (x,y) coordinate pair</returns>
+        public List<Terrain> EstablishAdjacent(int xCoord, int yCoord)
+        {
+            if (0 > xCoord || xCoord > mapWidth || 0 > yCoord || yCoord > mapHeight)
+            {
+                throw new IndexOutOfRangeException();
+            }
+            
+            List<Terrain> adjacencies = new List<Terrain>();
+
+            // North
+            if (yCoord != 0)
+            {
+                adjacencies.Add(terrainArray[xCoord, yCoord - 1]);
+            }
+            // East
+            if (xCoord != mapWidth)
+            {
+                adjacencies.Add(terrainArray[xCoord + 1, yCoord]);
+            }
+            // South
+            if (yCoord != mapHeight)
+            {
+                adjacencies.Add(terrainArray[xCoord, yCoord + 1]);
+            }
+            // West
+            if (xCoord != 0)
+            {
+                adjacencies.Add(terrainArray[xCoord - 1, yCoord]);
+            }
+
+            return adjacencies;
+        }
+
+
+        /// <summary>
+        /// Performs a depth-first search on the graph
+        /// </summary>
+        /// <param name="name">The name of the Terrain at which to start</param>
+        public void DepthFirst(Terrain tile)
+        {
+            // Throw an error if the specified tile is unrecognized
+            if (!adjacencies.ContainsKey(tile))
+            {
+                throw new KeyNotFoundException("The specified tile couldn't be found in this graph!");
+            }
+            Reset();
+            Stack<Terrain> TerrainStack = new Stack<Terrain>();
+
+            // Get the current Terrain, print its name, add it to the stack,
+            //  mark is as visited
+            TerrainStack.Push(tile);
+            tile.Visited = true;
+
+            // While there's something on the stack:
+            while (TerrainStack.Count > 0)
+            {
+                Terrain currentTerrain = TerrainStack.Peek();
+                bool foundAdjacentUnvisited = false;
+                // Loop through the list of adjacencies to find an adjacent and unvisited Terrain
+                for (int i = 0; i < adjacencies[currentTerrain].Count; ++i)
+                {
+                    // When an unvisited Terrain has been found, add it to the stack, and mark is as visited
+                    if (!adjacencies[currentTerrain][i].Visited)
+                    {
+                        // These assignments are necessary to change the Visited property of the Terrain to true
+                        Terrain visitedTerrain = adjacencies[currentTerrain][i];
+                        visitedTerrain.Visited = true;
+                        adjacencies[currentTerrain][i] = visitedTerrain;
+                        // Push that visited terriain to the stack and
+                        //  note that an adjacent unvisited piece of terrain has been found
+                        TerrainStack.Push(adjacencies[currentTerrain][i]);
+                        foundAdjacentUnvisited = true;
+                    }
+                }
+
+                // If an adjacent, unvisited Terraint wasn't found, pop the current Terrain off the stack
+                if (!foundAdjacentUnvisited)
+                {
+                    TerrainStack.Pop();
+                }
+            }
+        }
+
+        /// <returns>
+        /// The first unvisited Terrain adjacent to the specified Terrain
+        /// Null if no adjacent unvisited Terrain could be found
+        /// </returns>
+        public Terrain? GetAdjacentUnvisited(Terrain tile)
+        {
+            // Ensure that the specified name is in the dictionary
+            if (adjacencies.ContainsKey(tile))
+            {
+                // Loop through each adjacent Terrain, returning the first unvisited adjacent Terrain
+                foreach (Terrain v in adjacencies[tile])
+                {
+                    if (!v.Visited)
+                    {
+                        return v;
+                    }
+                }
+            }
+            // Return null if the specified name is invalid
+            //  or if no unvisited adjacent Terrain could be found
+            return null;
+        }
+
+        public Terrain? GetAdjacentPassable(Terrain tile)
+        {
+            // Ensure that the specified name is in the dictionary
+            if (adjacencies.ContainsKey(tile))
+            {
+                // Loop through each adjacent Terrain, returning the first unvisited, adjacent, and passable Terrain
+                foreach (Terrain v in adjacencies[tile])
+                {
+                    if (!v.Visited && v.Passable)
+                    {
+                        return v;
+                    }
+                }
+            }
+            // Return null if the specified name is invalid
+            //  or if no unvisited adjacent Terrain could be found
+            return null;
+        }
+
+        /// <summary>
+        /// Resets each Terrain's Visited value to false
+        /// </summary>
+        public void Reset()
+        {
+            for (int i = 0; i < terrainArray.GetLength(0); ++i)
+            {
+                for (int j = 0; j < terrainArray.GetLength(1); ++i)
+                {
+                    terrainArray[i, j].Visited = false;
+                }
+            }
+        }
+
+        /// <returns>
+        /// List of tiles adjacent to the specified tile
+        /// null if the specified tile does not exist
+        /// </returns>
+        public List<Terrain> GetAdjacencies(Terrain tile)
+        {
+            if (adjacencies.ContainsKey(tile))
+            {
+                return adjacencies[tile];
+            }
+            return null;
+        }
+
+        /// <param name="tile1">
+        /// The first tile
+        /// </param>
+        /// <param name="tile2">
+        /// The second tile
+        /// </param>
+        /// <returns>
+        /// True if tile2 is adjacent to tile1, else false
+        /// </returns>
+        public bool IsConnected(Terrain tile1, Terrain tile2)
+        {
+            // If one of the tiles is unrecognized, return false
+            if (!(adjacencies.ContainsKey(tile1) && adjacencies.ContainsKey(tile2)))
+            {
+                return false;
+            }
+            List<Terrain> adjacenttiles = GetAdjacencies(tile1);
+            // Search through tile1's adjacencies for tile2; if it's found, return true
+            foreach (Terrain tile in adjacenttiles)
+            {
+                if (ReferenceEquals(tile, tile2))
+                {
+                    return true;
+                }
+            }
+            // tile2 wasn't found in tile1's adjacencies, return false
+            return false;
+        }
+
 
         /// <summary>
         /// Skips over a Terrain object; 8 32-bit Integers and a Boolean
@@ -201,6 +383,16 @@ namespace Omnipath
                 SkipTerrain(reader);
             }
 
+        }
+        #endregion
+
+        #region Indexer
+        public Terrain this[int x, int y]
+        {
+            get
+            {
+                return terrainArray[x, y];
+            }
         }
         #endregion
 
