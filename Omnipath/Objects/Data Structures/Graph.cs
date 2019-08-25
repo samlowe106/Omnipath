@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Omnipath
 {
-    class Graph<T>
+    class Graph
     {
         #region Fields
         private Dictionary<Terrain, List<Terrain>> adjacencies;
@@ -149,7 +149,6 @@ namespace Omnipath
         }
 
         #endregion
-
 
         #region Properties
         /// <summary>
