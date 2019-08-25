@@ -11,7 +11,7 @@ namespace Omnipath
     /// A playable area loaded from a file
     /// Centers on the camera and dynamically loads/unloads terrain based on the screen width/height
     /// </summary>
-    class Map
+    class Map : Graph
     {
         private int mapWidth;
         private int mapHeight;
