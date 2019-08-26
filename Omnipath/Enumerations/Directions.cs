@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace Omnipath
 {
-    /// <summary>
-    /// Represents tiles that a playable area can be built from
-    /// </summary>
-    public enum Tile
+    public enum Directions
     {
-        Grassland = 0,
-
+        North = 0,
+        East = 1,
+        South = 2,
+        West = 3
     }
 }
