@@ -16,7 +16,7 @@ namespace Omnipath
     {
         #region Fields
         // MonoGame-relevant fields
-        protected Rectangle rectangle;  // Hitbox, position, width, height
+        protected Rectangle rectangle;  // Position, width, height
         protected Texture2D texture;    // Texture
         protected bool active;
         protected float angle;
@@ -48,9 +48,12 @@ namespace Omnipath
         /// Updates this object
         /// </summary>
         public virtual void Update() { }
-        #endregion
 
-        #region Methods
+        /*public bool HitBoxContains(Point point)
+        {
+            
+        }*/
+
         /// <summary>
         /// Orients this object to look at the specified subject
         /// </summary>
@@ -137,6 +140,14 @@ namespace Omnipath
             {
                 return active;
             }
+        }
+
+        /// <summary>
+        /// The radius of this GameObject's hitbox
+        /// </summary>
+        public int Radius
+        {
+            get;
         }
         #endregion
     }
