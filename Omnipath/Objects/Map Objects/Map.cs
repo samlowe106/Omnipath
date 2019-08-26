@@ -33,6 +33,9 @@ namespace Omnipath
         private Dictionary<Terrain, List<Terrain>> adjacencies;
         private Terrain[,] terrainArray;
 
+        /// <summary>
+        /// The array of textures used to associate IDs and textures
+        /// </summary>
         private Texture2D[] textures;
 
         private int activeWidth;

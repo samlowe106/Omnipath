@@ -17,11 +17,7 @@ namespace Omnipath
         #endregion
 
         #region Constructor
-        /// <summary>
-        /// A terrain struct; it's faster to do the assignments manually
-        /// </summary>
         /// <param name="textures">The textures for the terrain</param>
-        /// <param name="passable"> if the object is passable</param>
         /// <param name="x"> the x location of the terrain</param>
         /// <param name="y"> the y location of the terrain </param>
         /// <param name="occupant"> the gameobject that spawns when this terrain is loaded in </param>
