@@ -49,10 +49,54 @@ namespace Omnipath
         /// </summary>
         public virtual void Update() { }
 
-        /*public bool HitBoxContains(Point point)
+        /// <summary>
+        /// Checks if the specified point is within this GameObject's hitbox
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns>
+        /// True if the specified point's distance to this GameObject's center is less than this GameObject's radius,
+        /// else false
+        /// </returns>
+        public bool HitBoxContains(Point p)
         {
-            
-        }*/
+            return DistanceTo(p) < Radius;
+        }
+
+        /// <summary>
+        /// Calculates the absolute value of the distance between this GameObject's center and the specified Point
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns>The absolute distance between this GameObject's center and the specified Point</returns>
+        public double DistanceTo(Point p)
+        {
+            return Math.Abs(Math.Sqrt(Math.Pow(this.Center.X - p.X, 2) + Math.Pow(this.Center.Y - p.Y, 2)));
+        }
+
+        /// <summary>
+        /// Checks if the hitboxes of this GameObject and another GameObject are overlapping
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <returns>
+        /// True if the distance between the centers of both this GameObject and the specified GameObject is less than their combined radii,
+        /// else false
+        /// </returns>
+        public bool HitBoxContains(GameObject gameObject)
+        {
+            return DistanceTo(gameObject.Center) < this.Radius + gameObject.Radius;
+        }
+
+        /// <summary>
+        /// Calculates and returns the distance between the edges of this GameObject's hitbox and the specified GameObject's hitbox
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <returns>
+        /// The distance between the edges of this GameObject's hitbox and the specified GameObject's hitbox
+        /// A positive value indicates these GameObjects are not overlapping, a negative value indicates that they are
+        /// </returns>
+        public double EdgeDistance(GameObject gameObject)
+        {
+            return DistanceTo(gameObject.Center) - (this.Radius + gameObject.Radius);
+        }
 
         /// <summary>
         /// Orients this object to look at the specified subject
