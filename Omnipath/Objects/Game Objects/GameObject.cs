@@ -21,6 +21,7 @@ namespace Omnipath
         protected bool active;
         protected float angle;
         protected Vector2 direction;
+        protected List<Modifier> modifiers;
         #endregion
 
         #region Constructor
@@ -47,7 +48,17 @@ namespace Omnipath
         /// <summary>
         /// Updates this object
         /// </summary>
-        public virtual void Update() { }
+        public virtual void Update()
+        {
+            for (int i = modifiers.Count - 1; i > -1; --i)
+            {
+                modifiers[i].Update();
+                if (modifiers[i].Finished)
+                {
+                    modifiers.RemoveAt(i);
+                }
+            }
+        }
 
         /// <summary>
         /// Checks if the specified point is within this GameObject's hitbox
