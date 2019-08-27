@@ -22,5 +22,9 @@ namespace Omnipath
 
         #region Items
         #endregion
+
+        #region Abilities
+        Firebolt = 0
+        #endregion
     }
 }

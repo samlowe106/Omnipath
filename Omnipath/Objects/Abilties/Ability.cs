@@ -21,10 +21,11 @@ namespace Omnipath
     abstract class Ability
     {
         #region Constructor
-        public Ability(GameObject user, Texture2D icon)
+        public Ability(GameObject user,  Texture2D[] textures)
         {
             this.User = user;
-            this.Icon = icon;
+            this.Icon = textures[0];
+            this.Textures = textures;
         }
         #endregion
 
@@ -86,10 +87,31 @@ namespace Omnipath
             }
         }
 
+        public void UpdateFrame()
+        {
+            currentFrame++;
+            if (currentFrame >= Textures.Length)
+            {
+                currentFrame = 1;
+            }
+
+        }
+
         /// <summary>
         /// The icon of this abililty to be displayed in the HUD and UI
         /// </summary>
         public Texture2D Icon { get; }
         #endregion
+
+        /// <summary>
+        /// The image of this ability to be used when casted
+        /// </summary>
+        public Texture2D[] Textures { get; }
+
+        /// <summary>
+        /// The image of this ability to be used when casted
+        /// </summary>
+        public int currentFrame { get; set; }
+
     }
 }

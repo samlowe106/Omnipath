@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Omnipath
 {
+
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
@@ -23,13 +24,21 @@ namespace Omnipath
         Texture2D playerTexture;
 
         Dictionary<Keys, PlayerAction> controlMapping;
-        Texture2D[] textures;
 
         KeyboardState currentkbState;
         KeyboardState previouskbState;
 
         MouseState currentMouseState;
         MouseState previousMouseState;
+
+        public static Texture2D[][] terrainTextures;
+        public static Texture2D[][] decorationsTextures;
+        public static Texture2D[][] gameObjectsTextures;
+        public static Texture2D[][] itemsTextures;
+        /// <summary>
+        /// The first index of each ability texture is the hotbar icon for that ability
+        /// </summary>
+        public static Texture2D[][] abilitiesTextures;
 
 
         #region GameObjects
