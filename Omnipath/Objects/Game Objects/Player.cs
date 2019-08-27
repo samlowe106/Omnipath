@@ -14,6 +14,20 @@ namespace Omnipath
     {
         #region Fields
         Dictionary<Keys, PlayerAction> controlMapping;
+
+        #region Resources
+        Resource health;
+        Resource Mana;
+        Resource Stamina;
+        #endregion
+
+        #region Stats
+        float fireresist;
+        float fireAffinity;
+        float magicAttack;
+        
+        #endregion
+
         #endregion
 
         /// <summary>

@@ -11,9 +11,11 @@ namespace Omnipath.Objects.Abilties.ActiveAbility
 {
     class Firebolt : Ability
     {
-        public Firebolt(GameObject go) : base(go, Game1.abilitiesTextures[(int)TextureID.Firebolt][0], Game1.abilitiesTextures[(int)TextureID.Firebolt])
+        public Firebolt(GameObject user) : base(user, Game1.abilitiesTextures[(int)TextureID.Firebolt])
         {
             
         }
+
+        
     }
 }

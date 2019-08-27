@@ -21,11 +21,17 @@ namespace Omnipath
     abstract class Ability
     {
         #region Constructor
-        public Ability(GameObject user,  Texture2D[] textures)
+        public Ability(GameObject user,  Texture2D[] textures, Modifier[] modifiers )
         {
             this.User = user;
             this.Icon = textures[0];
-            this.Textures = textures;
+            Texture2D[] temp = new Texture2D[textures.Length - 1];
+            for(int i = 1; i < textures.Length; i++)
+            {
+                temp[i - 1] = textures[i];
+            }
+            this.Textures = temp;
+            this.Modifiers = modifiers;
         }
         #endregion
 
@@ -89,12 +95,7 @@ namespace Omnipath
 
         public void UpdateFrame()
         {
-            currentFrame++;
-            if (currentFrame >= Textures.Length)
-            {
-                currentFrame = 1;
-            }
-
+            CurrentFrame++;
         }
 
         /// <summary>
@@ -111,7 +112,25 @@ namespace Omnipath
         /// <summary>
         /// The image of this ability to be used when casted
         /// </summary>
-        public int currentFrame { get; set; }
+        public int CurrentFrame { get; set; }
+
+        public Texture2D CurrentTexture
+        {
+            get
+            {
+                return (Textures[CurrentFrame % Textures.Length]);
+            }
+        }
+
+        public Modifier[] Modifiers
+        {
+            get;
+        }
+
+        public IDamageable[] InstantDamage
+        {
+            get;
+        }
 
     }
 }
