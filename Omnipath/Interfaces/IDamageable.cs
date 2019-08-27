@@ -12,39 +12,9 @@ namespace Omnipath
     interface IDamageable
     {
         /// <summary>
-        /// Maximum amount of health that this object can have
+        /// The amount of Health this object has
         /// </summary>
-        int MaximumHealth { get; }
-
-        /// <summary>
-        /// Current amount of health that this object has
-        /// </summary>
-        float CurrentHealth { get; }
-
-        /// <summary>
-        /// Difference between this object's maximum and current health
-        /// </summary>
-        float MissingHealth { get; }
-
-        /// <summary>
-        /// Percentage of how much of this object's maximum health is remaining
-        /// 100% = full health, 0% = no health
-        /// </summary>
-        float CurrentHealthPercentage { get; }
-
-        /// <summary>
-        /// Equal to percent * MissingHealth
-        /// </summary>
-        /// <param name="percent">Percentage of missing health to be returned</param>
-        /// <returns></returns>
-        float PercentMissingHealth(float percent);
-
-        /// <summary>
-        /// Equal to percent * CurrentHealth
-        /// </summary>
-        /// <param name="percent">Percentage of current health to be returned</param>
-        /// <returns></returns>
-        float PercentCurrentHealth(float percent);
+        Resource Health { get; }
 
         /// <summary>
         /// Function that causes this object to take damage

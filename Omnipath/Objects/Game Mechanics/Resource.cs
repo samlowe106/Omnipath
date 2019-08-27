@@ -19,9 +19,14 @@ namespace Omnipath
 
         #region Properties
         /// <summary>
-        /// The maximum possible value for this resource to have
+        /// The maximum possible value for this resource to have (after modifiers)
         /// </summary>
-        public int MaxValue { get; set; }
+        public int EffectiveMaxValue { get; set; }
+
+        /// <summary>
+        /// The maximum value this resource can have (before modifiers)
+        /// </summary>
+        public int BaseMaxValue { get; }
 
         /// <summary>
         /// Current value of 
@@ -34,12 +39,12 @@ namespace Omnipath
             }
             set
             {
-                // Ensure the new value can't be less than the minimum possible value
-                if (value > MaxValue)
+                // Ensure the new value can't be less than the current maximum possible value
+                if (value > EffectiveMaxValue)
                 {
-                    CurrentValue = MaxValue;
+                    CurrentValue = EffectiveMaxValue;
                 }
-                // Ensure the new value can't be less than the minimum possible value
+                // Ensure the new value can't be less than 0
                 else if (value < 0)
                 {
                     CurrentValue = 0;
@@ -51,25 +56,57 @@ namespace Omnipath
             }
         }
 
+
         /// <summary>
-        /// Returns the percent of health that's missing (ranges from 100.0 to 0.0)
+        /// Equal to percent * AmountMissing
+        /// </summary>
+        /// <param name="percent">Percentage of missing resource to be returned</param>
+        /// <returns></returns>
+        public float PercentOfAmountMissing(float percent)
+        {
+            return percent * AmountMissing;
+        }
+
+        /// <summary>
+        /// Equal to percent * CurrentValue
+        /// </summary>
+        /// <param name="percent">Percentage of current health to be returned</param>
+        /// <returns></returns>
+        public float PercentOfCurrentValue(float percent)
+        {
+            return percent * CurrentValue;
+        }
+
+        /// <summary>
+        /// Equal to this resource's EffectiveMaxValue minus its CurrentValue
+        /// </summary>
+        public int AmountMissing
+        {
+            get
+            {
+                return EffectiveMaxValue - CurrentValue;
+            }
+        }
+
+        /// <summary>
+        /// Returns the percent of this resource that's missing (ranges from 100.0 to 0.0), rounded to two decimals
         /// </summary>
         public float PercentMissing
         {
             get
             {
-                return 100 * ((MaxValue - CurrentValue) / MaxValue);
+                return (float)Math.Round(100f * (AmountMissing / EffectiveMaxValue), 2);
             }
         }
 
         /// <summary>
-        /// Returns the current percent of health remaining
+        /// Returns the current percent of this resource remaining
         /// </summary>
         public float PercentRemaining
         {
             get
             {
-                return 100 * (CurrentValue / MaxValue);
+                return 100f * (CurrentValue / EffectiveMaxValue);
             }
         }
 
