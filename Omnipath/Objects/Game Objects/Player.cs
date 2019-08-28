@@ -10,7 +10,7 @@ using System.IO;
 
 namespace Omnipath
 {
-    class Player : GameObject
+    class Player : GameObject, IDamageable
     {
         #region Fields
         Dictionary<Keys, PlayerAction> controlMapping;
@@ -100,5 +100,22 @@ namespace Omnipath
                 }
             }
         }
+
+        public float TakeDamage(IDealDamage source, DamageInstance[] damageInstances)
+        {
+            float damageTotal = 0;
+            foreach (DamageInstance d in damageInstances)
+            {
+                damageTotal += d.Value;
+            }
+
+            // Subract the amount of damage taken from health, rounding down
+            health.CurrentValue -= (int)damageTotal;
+
+            // Return the amount of damage done
+            return damageTotal;
+        }
+
+        public Resource Health { get; }
     }
 }
