@@ -17,46 +17,22 @@ namespace Omnipath
         #endregion
 
         #region Constructor
-        /// <param name="textures">The textures for the terrain</param>
-        /// <param name="x"> the x location of the terrain</param>
-        /// <param name="y"> the y location of the terrain </param>
-        /// <param name="occupant"> the gameobject that spawns when this terrain is loaded in </param>
-        public Terrain(Texture2D[] animationFrames, bool passableNorth, bool passableEast, bool passableWest, bool passableSouth, int x, int y, int dimensions, NPCType occupantID)
-        {
-            this.Textures = animationFrames;
-            this.PassableNorth = passableNorth;
-            this.PassableEast = passableEast;
-            this.PassableSouth = passableSouth;
-            this.PassableWest = passableWest;
-            this.Active = true;
-            this.frameNumber = 0;
-            this.FrameCount = this.Textures.Length;
-            this.Rectangle = new Rectangle(x, y, dimensions, dimensions);
-            this.OccupantID = occupantID;
-            this.Visited = false;
-        }
-
         /// <param name="reader">The binaryreader from which to read the data for this Terrain</param>
         /// <param name="dimensions">Width and height, in pixels, of this Terrain</param>
-        /// <param name="textures">Texture array used to associate IDs with Texture2Ds</param>
-        public Terrain(BinaryReader reader, int dimensions, Texture2D[] textures)
+        public Terrain(BinaryReader reader, int dimensions, int x, int y)
         {
-            Textures = new Texture2D[5];
-            for (int i = 0; i < 5; ++i)
-            {
-                Textures[i] = textures[reader.ReadInt32()];
-            }
+            Textures = Game1.terrainTextures[reader.ReadInt32()];
             this.PassableNorth = reader.ReadBoolean();
             this.PassableEast = reader.ReadBoolean();
             this.PassableSouth = reader.ReadBoolean();
             this.PassableWest = reader.ReadBoolean();
             this.Active = true;
             this.frameNumber = 0;
-            this.FrameCount = this.Textures.Length;
-            this.Rectangle = new Rectangle(reader.ReadInt32(), reader.ReadInt32(), dimensions, dimensions);
-            this.OccupantID = (NPCType)reader.ReadInt32();
+            this.Rectangle = new Rectangle(x * dimensions, y * dimensions, dimensions, dimensions);
             this.Visited = false;
         }
+
+        public Terrain(BinaryReader reader) : this(reader, 0, 0, 0) { }
         #endregion
 
         #region Methods
@@ -81,6 +57,8 @@ namespace Omnipath
         /// </summary>
         public NPCType OccupantID { get; set; }
 
+        public bool[] EnterableFrom { get; }
+
         /// <summary>
         /// If the terrain can be entered from the North
         /// </summary>
@@ -100,6 +78,17 @@ namespace Omnipath
         /// If the terrain can be entered from the West
         /// </summary>
         public bool PassableWest { get; set; }
+
+        /// <summary>
+        /// How many frames are in this terrain's animation cycle
+        /// </summary>
+        public int FrameCount
+        {
+            get
+            {
+                return this.Textures.Length;
+            }
+        }
 
         /// <summary>
         /// the current frame number (always 0 for non-animated terrains)
@@ -132,11 +121,6 @@ namespace Omnipath
         /// a rectangle representing the terrain
         /// </summary>
         public Rectangle Rectangle { get; set; }
-
-        /// <summary>
-        /// Maximum number of frames in this terrain's animation cycle
-        /// </summary>
-        public int FrameCount { get; set; }
 
         /// <summary>
         /// If this Terrain has been visited by a depth-first search

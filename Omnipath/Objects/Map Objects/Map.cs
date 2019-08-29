@@ -93,7 +93,7 @@ namespace Omnipath
                 {
                     for (int j = 0; j < MapWidth; ++j)
                     {
-                        new Terrain(reader, dimensions, textures);
+                        new Terrain(reader, dimensions, 0, 0);
                     }
                 }
 
@@ -103,19 +103,19 @@ namespace Omnipath
                     // Skip over unnecessary X-coordinates at the start of the current line
                     for (int j = 0; j < CenterX - (loadedWidth / 2); ++j)
                     {
-                        new Terrain(reader, dimensions, textures);
+                        new Terrain(reader, dimensions, 0, 0);
                     }
 
                     // Load in the tiles that will be in the LoadedZone
                     for (int j = 0; j < loadedWidth; ++j)
                     {
-                        terrainArray[i, j] = new Terrain(reader, dimensions, textures);
+                        terrainArray[i, j] = new Terrain(reader, dimensions, i, j);
                     }
 
                     // Skip over unnecessary x coordinates at the end of the current line
                     for (int j = 0; j < MapWidth - (CenterX + (loadedWidth / 2)); ++j)
                     {
-                        new Terrain(reader, dimensions, textures);
+                        new Terrain(reader, dimensions, 0, 0);
                     }
                 }
             }

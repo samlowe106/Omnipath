@@ -45,6 +45,7 @@
     <Compile Include="Enumerations\Directions.cs" />
     <Compile Include="Enumerations\NPCType.cs" />
     <Compile Include="Enumerations\PlayerAction.cs" />
+    <Compile Include="Enumerations\TerrainID.cs" />
     <Compile Include="Enumerations\TextureID.cs" />
     <Compile Include="Objects\Abilties\Ability.cs" />
     <Compile Include="Objects\Abilties\ActiveAbility\Firebolt.cs" />
