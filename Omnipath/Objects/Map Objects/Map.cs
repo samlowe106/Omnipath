@@ -79,7 +79,7 @@ namespace Omnipath
                 inStream = File.OpenRead(fileName);
                 reader = new BinaryReader(inStream);
 
-                // Begin reading data from the file
+                #region Read Terrain data from file
                 MapWidth = reader.ReadInt32();
                 MapHeight = reader.ReadInt32();
 
@@ -118,6 +118,11 @@ namespace Omnipath
                         new Terrain(reader, dimensions, 0, 0);
                     }
                 }
+                #endregion
+
+                #region Read NPC and Enemy data from file
+                // TODO
+                #endregion
             }
             // Catch any exceptions
             catch (Exception e)
@@ -366,14 +371,14 @@ namespace Omnipath
             {
                 for (int j = 0; j < MapWidth; ++j)
                 {
-                    new Terrain(reader, dimensions, textures);
+                    new Terrain(reader);
                 }
             }
 
             // Skip to the specified x coordinate
             for (int i = 0; i < x; ++i)
             {
-                new Terrain(reader, dimensions, textures);
+                new Terrain(reader);
             }
 
         }
