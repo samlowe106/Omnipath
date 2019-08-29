@@ -22,13 +22,14 @@ namespace Omnipath
         #endregion
 
         #region constructor
-        public Modifier(double delay, IDamageable target, IDealDamage source)
+        public Modifier(double delay, IDamageable target, IDealDamage source, Texture2D texture)
         {
             GameTime timer = new GameTime();
             timeInitialized = timer.ElapsedGameTime.TotalSeconds;
             this.delay = delay;
             this.target = target;
             this.source = source;
+            Texture = texture;
         }
         #endregion
 

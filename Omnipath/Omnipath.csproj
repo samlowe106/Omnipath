@@ -49,7 +49,10 @@
     <Compile Include="Objects\Abilties\Ability.cs" />
     <Compile Include="Objects\Abilties\ActiveAbility\Firebolt.cs" />
     <Compile Include="Objects\Abilties\TargetedAbility.cs" />
-    <Compile Include="Objects\Game Mechanics\ModifierManager.cs" />
+    <Compile Include="Objects\Game Mechanics\Modifier\DamageModifier.cs" />
+    <Compile Include="Objects\Game Mechanics\Modifier\StatModifier.cs" />
+    <Compile Include="Objects\Game Mechanics\Modifier\HealModifier.cs" />
+    <Compile Include="Objects\Manager Objects\ModifierManager.cs" />
     <Compile Include="Objects\Game Objects\NPC.cs" />
     <Compile Include="Enumerations\DamageType.cs" />
     <Compile Include="Enumerations\GameState.cs" />
@@ -62,7 +65,7 @@
     <Compile Include="Objects\Game Objects\SecondPlaceHolderEnemy.cs" />
     <Compile Include="Objects\Manager Objects\GameObjectManager.cs" />
     <Compile Include="Objects\Map Objects\Map.cs" />
-    <Compile Include="Objects\Game Mechanics\Modifier.cs" />
+    <Compile Include="Objects\Game Mechanics\Modifier\Modifier.cs" />
     <Compile Include="Objects\Game Mechanics\Resource.cs" />
     <Compile Include="Objects\UI Objects\Button.cs" />
     <Compile Include="Structs\DamageInstance.cs" />

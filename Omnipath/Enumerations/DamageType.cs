@@ -5,9 +5,11 @@
     /// </summary>
     public enum DamageType
     {
-        Fire,
+        Burn,
         Frost,
         Shock,
+        Light,
+        Dark,
         Impact,
         Pierce,
         Slice,
