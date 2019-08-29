@@ -21,7 +21,7 @@ namespace Omnipath
     abstract class Ability
     {
         #region Constructor
-        public Ability(GameObject user,  Texture2D[] textures, Modifier[] modifiers )
+        public Ability(GameObject user,  Texture2D[] textures, Modifier[] modifiers)
         {
             this.User = user;
             this.Icon = textures[0];

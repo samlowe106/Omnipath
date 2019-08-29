@@ -49,6 +49,7 @@
     <Compile Include="Objects\Abilties\Ability.cs" />
     <Compile Include="Objects\Abilties\ActiveAbility\Firebolt.cs" />
     <Compile Include="Objects\Abilties\TargetedAbility.cs" />
+    <Compile Include="Objects\Game Mechanics\ModifierManager.cs" />
     <Compile Include="Objects\Game Objects\NPC.cs" />
     <Compile Include="Enumerations\DamageType.cs" />
     <Compile Include="Enumerations\GameState.cs" />

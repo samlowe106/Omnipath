@@ -12,51 +12,37 @@ namespace Omnipath
     /// <summary>
     /// Represents a status modifer
     /// </summary>
-    class Modifier
+    abstract class Modifier
     {
-        private GameObject source;
+        #region fields
+        private double timeInitialized;
+        private double delay;
+        private IDamageable target;
+        private IDealDamage source;
+        #endregion
 
-        /// <summary>
-        /// Number of ticks until this modifier expires
-        /// </summary>
-        private int ticksRemaining;
-        
-        // time applied
-        // time it will expire
-        // time until it expires
-        // effect
-
-        public void Update()
+        #region constructor
+        public Modifier(double delay, IDamageable target, IDealDamage source)
         {
-            if (!Finished)
-            {
-                --ticksRemaining;
-            }
+            GameTime timer = new GameTime();
+            timeInitialized = timer.ElapsedGameTime.TotalSeconds;
+            this.delay = delay;
+            this.target = target;
+            this.source = source;
         }
+        #endregion
 
-        /// <summary>
-        /// Number of ticks until this modifier expires
-        /// </summary>
-        public int TicksRemaining
+        #region methods
+        public Boolean CheckIfReady(double currentTime)
         {
-            get
-            {
-                return ticksRemaining;
-            }
+            return currentTime - timeInitialized >= delay;
         }
+        #endregion
 
-        /// <summary>
-        /// True if this modifier has expired 
-        /// False if it has not
-        /// </summary>
-        public bool Finished
-        {
-            get
-            {
-                return TicksRemaining <= 0;
-            }
-        }
+        public abstract void applyEffect();
 
+        #region properties
         public Texture2D Texture { get; }
+        #endregion
     }
 }
