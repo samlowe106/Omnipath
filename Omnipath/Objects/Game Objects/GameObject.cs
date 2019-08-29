@@ -50,14 +50,7 @@ namespace Omnipath
         /// </summary>
         public virtual void Update()
         {
-            for (int i = modifiers.Count - 1; i > -1; --i)
-            {
-                modifiers[i].Update();
-                if (modifiers[i].Finished)
-                {
-                    modifiers.RemoveAt(i);
-                }
-            }
+        
         }
 
         /// <summary>
