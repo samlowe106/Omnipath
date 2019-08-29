@@ -21,11 +21,10 @@ namespace Omnipath
         /// <param name="dimensions">Width and height, in pixels, of this Terrain</param>
         public Terrain(BinaryReader reader, int dimensions, int x, int y)
         {
-            Textures = Game1.terrainTextures[reader.ReadInt32()];
-            this.PassableNorth = reader.ReadBoolean();
-            this.PassableEast = reader.ReadBoolean();
-            this.PassableSouth = reader.ReadBoolean();
-            this.PassableWest = reader.ReadBoolean();
+            // Read this Terrain's ID from the file
+            int terrainID = reader.ReadInt32();
+            Textures = Game1.terrainTextures[terrainID];
+            this.EnterableFrom = Game1.terrainEnterableFrom[terrainID];
             this.Active = true;
             this.frameNumber = 0;
             this.Rectangle = new Rectangle(x * dimensions, y * dimensions, dimensions, dimensions);
@@ -57,6 +56,11 @@ namespace Omnipath
         /// </summary>
         public NPCType OccupantID { get; set; }
 
+        /// <summary>
+        /// Describes if this Terrain can be entered from the North (0), the East (1), the South (2), and the West (3);
+        /// true if this Terrain can be entered from that direction, false if it cannot
+        /// (Index this array with the Direction enum for clarity)
+        /// </summary>
         public bool[] EnterableFrom { get; }
 
         /// <summary>
