@@ -52,9 +52,6 @@
     <Compile Include="..\Omnipath\Enumerations\NPCType.cs">
       <Link>NPCType.cs</Link>
     </Compile>
-    <Compile Include="..\Omnipath\Game1.cs">
-      <Link>Game1.cs</Link>
-    </Compile>
     <Compile Include="..\Omnipath\Interfaces\IDisplayable.cs">
       <Link>IDisplayable.cs</Link>
     </Compile>
