@@ -32,16 +32,10 @@ namespace Omnipath
         MouseState previousMouseState;
 
         #region Static Members
-
-        public static Texture2D[][] terrainTextures { get; }
-        public static Texture2D[][] decorationsTextures { get; }
         public static Texture2D[][] gameObjectsTextures { get; }
         public static Texture2D[][] itemsTextures { get; }
 
-        /// <summary>
-        /// Index with TerrainID; returns a size 4 array describing if the Terrain can be entered from North, East, etc
-        /// </summary>
-        public static bool[][] terrainEnterableFrom { get; }
+
 
         /// <summary>
         /// The first index of each ability texture is the hotbar icon for that ability

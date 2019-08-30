@@ -16,6 +16,72 @@ namespace Omnipath
         private int frameNumber;
         #endregion
 
+        #region Static Members
+        private static bool[][] terrainEnterableFrom;
+        private static Texture2D[][] terrainTextures;
+        private static Texture2D[][] decorationTextures;
+
+        /// <summary>
+        /// Index with TerrainID; returns a size 4 array describing if the Terrain can be entered from North, East, etc
+        /// </summary>
+        public static bool[][] TerrainEnterableFrom
+        {
+            get
+            {
+                return terrainEnterableFrom;
+            }
+            set
+            {
+                if (terrainEnterableFrom != null)
+                {
+                    throw new Exception("TerrainTextures has already been assigned to!");
+                }
+                else
+                {
+                    terrainEnterableFrom = value;
+                }
+            }
+        }
+
+        public static Texture2D[][] TerrainTextures
+        {
+            get
+            {
+                return terrainTextures;
+            }
+            set
+            {
+                if (terrainTextures != null)
+                {
+                    throw new Exception("TerrainTextures has already been assigned to!");
+                }
+                else
+                {
+                    terrainTextures = value;
+                }
+            }
+        }
+
+        public static Texture2D[][] DecorationTextures
+        {
+            get
+            {
+                return decorationTextures;
+            }
+            set
+            {
+                if (decorationTextures != null)
+                {
+                    throw new Exception("DecorationTextures has already been assigned to!");
+                }
+                else
+                {
+                    decorationTextures = value;
+                }
+            }
+        }
+        #endregion
+
         #region Constructor
         /// <param name="reader">The binaryreader from which to read the data for this Terrain</param>
         /// <param name="dimensions">Width and height, in pixels, of this Terrain</param>
@@ -23,8 +89,8 @@ namespace Omnipath
         {
             // Read this Terrain's ID from the file
             int terrainID = reader.ReadInt32();
-            Textures = Game1.terrainTextures[terrainID];
-            this.EnterableFrom = Game1.terrainEnterableFrom[terrainID];
+            Textures = Terrain.TerrainTextures[terrainID];
+            this.EnterableFrom = Terrain.TerrainEnterableFrom[terrainID];
             this.Active = true;
             this.frameNumber = 0;
             this.Rectangle = new Rectangle(x * dimensions, y * dimensions, dimensions, dimensions);
