@@ -64,6 +64,11 @@ namespace Omnipath
             {
 
             }
+            if (total <= 0)
+            {
+                total = 1;
+            }
+            this.Target.TakeDamage(this.Source, )
         }
 
     }

@@ -30,6 +30,8 @@ namespace Omnipath
             this.target = target;
             this.source = source;
             Texture = texture;
+            Target = target;
+            Source = source;
         }
         #endregion
 
@@ -44,6 +46,8 @@ namespace Omnipath
 
         #region properties
         public Texture2D Texture { get; }
+        public IDamageable Target { get; }
+        public IDealDamage Source { get; }
         #endregion
     }
 }
