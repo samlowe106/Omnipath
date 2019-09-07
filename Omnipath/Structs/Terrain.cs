@@ -43,6 +43,10 @@ namespace Omnipath
             }
         }
 
+        /// <summary>
+        /// Array of each of the animation frames for each terrain type
+        /// Index with the Terrain ID first, then index with the frame number to get the corresponding frame texture
+        /// </summary>
         public static Texture2D[][] TerrainTextures
         {
             get
@@ -62,6 +66,10 @@ namespace Omnipath
             }
         }
 
+        /// <summary>
+        /// Array of each of the animation frames for each Decoration type
+        /// Index with the Decoration ID first, then index with the frame number to get the corresponding frame texture
+        /// </summary>
         public static Texture2D[][] DecorationTextures
         {
             get
@@ -97,6 +105,9 @@ namespace Omnipath
             this.Visited = false;
         }
 
+        /// <summary>
+        /// Skips over Terrain objects in a file. DON'T save the constructed object!
+        /// </summary>
         public Terrain(BinaryReader reader) : this(reader, 0, 0, 0) { }
         #endregion
 
