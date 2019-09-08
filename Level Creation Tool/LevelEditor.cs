@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Omnipath;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Level_Creation_Tool
 {
@@ -19,13 +20,16 @@ namespace Level_Creation_Tool
         private int specifiedY;
         private int startX;         // The leftmost possible X value that can be occupied
         private int startY;         // The northernmost possible Y value that can be occupied
+        private int endX;           // The rightmost possible X value that can be occupied
         private int endY;           // The southernmost possible Y value that can be occupied
-        private int height;         // The total distance from startY to endX
+        private int width;          // The total distance from startX to endX
+        private int height;         // The total distance from startY to endY
         private int pixelBuffer;    // Just makes the rightmost side of the form look nice
         private bool areUnsavedChanges;
         private int pictureBoxDimensions;   // The X and Y dimensions fo the picture boxes (the "pixels")
         private PictureBox[,] pictureBoxes;
         private Map map;
+        private Texture2D[] textures;
         #endregion
 
         #region Constructors
@@ -89,7 +93,7 @@ namespace Level_Creation_Tool
         }
         #endregion
 
-        #region Methods
+        #region Constructor
         /// <summary>
         /// Parameterized constructor that accepts a filename to be opened
         /// </summary>
@@ -115,8 +119,9 @@ namespace Level_Creation_Tool
             // Load the map from the specified file
             this.map = new Map(fileName, width, height, textures);
         }
+        #endregion
 
-        // Methods
+        #region Methods
 
         /// <summary>
         /// Changes the current color to the selected color
@@ -209,14 +214,24 @@ namespace Level_Creation_Tool
                 writer.Write(specifiedX);
                 writer.Write(specifiedY);
 
-                // Write each box's dimensions, location X & Y, and its color (as an int)
+                // Write each Terrain's ID
                 foreach (PictureBox box in pictureBoxes)
                 {
-                    writer.Write(box.Size.Width);
-                    writer.Write(box.Location.X);
-                    writer.Write(box.Location.Y);
-                    writer.Write(box.BackColor.ToArgb());
+
                 }
+
+                // Write each Decoration's ID and coordinates
+                foreach (PictureBox box in pictureBoxes)
+                {
+
+                }
+
+                // Write each Enemy's ID and coordinates
+                foreach (PictureBox box in pictureBoxes)
+                {
+
+                }
+
                 // Inform the user that the saved correctly
                 MessageBox.Show("File saved", "File saved");
                 areUnsavedChanges = false;
@@ -250,88 +265,7 @@ namespace Level_Creation_Tool
             // If the user selected a file, hide this form and open the level in the editor
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                LoadMap(openFileDialog.FileName);
-            }
-        }
-
-        /// <summary>
-        /// Load the map from a file and display it
-        /// </summary>
-        /// <param name="fileName"></param>
-        public void LoadMap(string fileName)
-        {
-            // If they exist, unload all the previous pictureBoxes
-            if (pictureBoxes != null)
-            {
-                foreach (PictureBox box in pictureBoxes)
-                {
-                    box.Hide();
-                    this.levelGroupBox.Controls.Remove(box);
-                }
-            }
-
-            // Establish the stream and reader as null
-            FileStream inStream = null;
-            BinaryReader reader = null;
-            // Try reading from the file
-            try
-            {
-                inStream = File.OpenRead(fileName);
-                reader = new BinaryReader(inStream);
-
-                // Reading the X and Y dimensions of the map
-                specifiedX = reader.ReadInt32();
-                specifiedY = reader.ReadInt32();
-
-                // Establish the pictureBox dimensions and form width accordingly
-                pictureBoxDimensions = height / specifiedX;
-
-                levelGroupBox.Size = new Size((specifiedY * pictureBoxDimensions) + pixelBuffer, 425);
-
-                areUnsavedChanges = false;
-
-                this.Size = new Size(levelGroupBox.Size.Width + 120, 500);
-
-                // (Re-) Initialize the array of pictureboxes with new dimensions
-                pictureBoxes = new PictureBox[specifiedX, specifiedY];
-
-                for (int i = 0; i < specifiedX * specifiedY; ++i)
-                {
-                    PictureBox pictureBox = new PictureBox();
-
-                    pictureBoxDimensions = reader.ReadInt32();
-
-                    pictureBox.Size = new Size(pictureBoxDimensions, pictureBoxDimensions);
-                    pictureBox.Location = new Point(reader.ReadInt32(), reader.ReadInt32());
-                    pictureBox.BackColor = Color.FromArgb(reader.ReadInt32());
-
-                    // Ensure the box reacts correctly to being clicked
-                    pictureBox.Click += pictureBoxPixel_Click;
-
-                    // Add the box to the array
-                    pictureBoxes[i / specifiedX, i % specifiedY] = pictureBox;
-
-                    // Add the pictureBox to the form
-                    this.levelGroupBox.Controls.Add(pictureBox);
-                }
-
-                // Inform the user that the file loaded correctly
-                MessageBox.Show("File loaded correctly", "File loaded");
-                // Change the form name to the file's name
-                this.Text = fileName;
-            }
-            // Catch any exceptions and print their error message
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message, "Error");
-            }
-            // Finally, close the file if it was opened
-            finally
-            {
-                if (reader != null)
-                {
-                    reader.Close();
-                }
+                map = new Map(openFileDialog.FileName, width, height, textures);
             }
         }
 
