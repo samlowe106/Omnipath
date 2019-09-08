@@ -61,6 +61,7 @@
     <Compile Include="..\Omnipath\Structs\Terrain.cs">
       <Link>Terrain.cs</Link>
     </Compile>
+    <Compile Include="Directions.cs" />
     <Compile Include="Launcher.cs">
       <SubType>Form</SubType>
     </Compile>

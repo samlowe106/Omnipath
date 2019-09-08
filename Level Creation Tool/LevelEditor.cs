@@ -113,7 +113,7 @@ namespace Level_Creation_Tool
             saveFileDialog.Title = "Choose your save location";
             saveFileDialog.Filter = "Level Files| *.level";
             // Load the map from the specified file
-            this.map = new Map(fileName, null, width, height, width, height, 64, textures[]);
+            this.map = new Map(fileName, width, height, textures);
         }
 
         // Methods

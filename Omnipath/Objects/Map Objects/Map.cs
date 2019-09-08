@@ -349,23 +349,6 @@ namespace Omnipath
             return false;
         }
 
-        /// <param name="identifier">An ID for a corresponding GameObject</param>
-        /// <param name="coords">Where that GameObject will be placed</param>
-        /// <returns></returns>
-        private GameObject GetGameObject(int identifier, Point coords)
-        {
-            switch ((NPCType)identifier)
-            {
-                case NPCType.PlaceHolderEnemy:
-                    return new PlaceHolderEnemy(coords, textures[identifier]);
-
-                case NPCType.SecondPlaceholderEnemy:
-                    return new SecondPlaceHolderEnemy(coords, textures[identifier]);
-            }
-
-            return null;
-        }
-
         /// <summary>
         /// Jumps from the start of the file to the Terrain data at a specific x, y coordinate
         /// </summary>
