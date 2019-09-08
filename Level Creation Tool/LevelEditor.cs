@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using Omnipath;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace Level_Creation_Tool
 {
@@ -30,6 +31,7 @@ namespace Level_Creation_Tool
         private PictureBox[,] pictureBoxes;
         private Map map;
         private Texture2D[] textures;
+        private ContentManager Content { get; set; }
         #endregion
 
         #region Constructors
@@ -103,6 +105,8 @@ namespace Level_Creation_Tool
         public LevelEditor(string fileName)
         {
             InitializeComponent();
+
+            Content.RootDirectory = "Content";
 
             startX = 7;
             startY = 20;
