@@ -55,6 +55,9 @@
     <Compile Include="..\Omnipath\Interfaces\IDisplayable.cs">
       <Link>IDisplayable.cs</Link>
     </Compile>
+    <Compile Include="..\Omnipath\Objects\Map Objects\Map.cs">
+      <Link>Map.cs</Link>
+    </Compile>
     <Compile Include="..\Omnipath\Structs\Terrain.cs">
       <Link>Terrain.cs</Link>
     </Compile>

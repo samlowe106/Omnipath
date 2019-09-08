@@ -8,26 +8,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using Omnipath;
 
 namespace Level_Creation_Tool
 {
     public partial class LevelEditor : Form
     {
-        // Fields
+        #region Fields
+        private int specifiedX;
+        private int specifiedY;
+        private int startX;         // The leftmost possible X value that can be occupied
+        private int startY;         // The northernmost possible Y value that can be occupied
+        private int endY;           // The southernmost possible Y value that can be occupied
+        private int height;         // The total distance from startY to endX
+        private int pixelBuffer;    // Just makes the rightmost side of the form look nice
+        private bool areUnsavedChanges;
+        private int pictureBoxDimensions;   // The X and Y dimensions fo the picture boxes (the "pixels")
+        private PictureBox[,] pictureBoxes;
+        private Map map;
+        #endregion
 
-        int specifiedX;
-        int specifiedY;
-        int startX;         // The leftmost possible X value that can be occupied
-        int startY;         // The northernmost possible Y value that can be occupied
-        int endY;           // The southernmost possible Y value that can be occupied
-        int height;         // The total distance from startY to endX
-        int pixelBuffer;    // Just makes the rightmost side of the form look nice
-        bool areUnsavedChanges;
-        int pictureBoxDimensions;   // The X and Y dimensions fo the picture boxes (the "pixels")
-        PictureBox[,] pictureBoxes;
-
-        // Constructors
-
+        #region Constructors
         /// <summary>
         /// Constructor that does not accept a filename
         /// </summary>
@@ -86,7 +87,9 @@ namespace Level_Creation_Tool
                 }
             }
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Parameterized constructor that accepts a filename to be opened
         /// </summary>
@@ -110,7 +113,7 @@ namespace Level_Creation_Tool
             saveFileDialog.Title = "Choose your save location";
             saveFileDialog.Filter = "Level Files| *.level";
             // Load the map from the specified file
-            LoadMap(fileName);
+            this.map = new Map(fileName, null, width, height, width, height, 64, textures[]);
         }
 
         // Methods
@@ -361,5 +364,6 @@ namespace Level_Creation_Tool
                 }
             }
         }
+        #endregion
     }
 }
