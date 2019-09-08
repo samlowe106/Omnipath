@@ -70,25 +70,15 @@ namespace Level_Creation_Tool
             // Otherwise, just print out any error messages
             string errorMessage = "Errors:\n";
 
-            // If the width isn't an integer, prompt the user for a valid input
-            if (!widthIsInt)
+            // If the width isn't a valid integer, prompt the user for a valid input
+            if (!widthIsInt || !widthValueValid)
             {
-                errorMessage += " -" + "Width isn't a valid number! Please input an integer from 10 to 30\n";
+                errorMessage += " -" + "Width must be between 10 and 30\n";
             }
-            // If width just isn't in a valid range, prompt the user for a valid int
-            else if (!widthValueValid)
+            // If the height isn't a valid integer, prompt the user for a valid input
+            if (!heightIsInt || !heightValueValid)
             {
-                errorMessage += " -" + "Please input an integer from 10 to 30 for width\n";
-            }
-            // If the width isn't an integer, prompt the user for a valid input
-            if (!heightIsInt)
-            {
-                errorMessage += " -" + "Height isn't a valid number! Please input an integer from 10 to 30";
-            }
-            // If width just isn't in a valid range, prompt the user for a valid int
-            else if (!heightValueValid)
-            {
-                errorMessage += " -" + "Please input an integer from 10 to 30 for height";
+                errorMessage += " -" + "Height must be between 10 and 30\n";
             }
 
             // Display the errors in a MessageBox
