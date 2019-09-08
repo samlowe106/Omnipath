@@ -55,19 +55,18 @@ namespace Omnipath
         /// The maximum height of this map
         /// </summary>
         public readonly int MapHeight;
-
-        private GameObject centerObject;
         #endregion
 
         #region Constructor
-        public Map(string fileName, GameObject centerObject, int activeWidth, int activeHeight, int loadedWidth, int loadedHeight, int dimensions, Texture2D[] textures)
+        public Map(string fileName, int activeWidth, int activeHeight, Texture2D[] textures) : this(fileName, activeWidth, activeHeight, 64, textures) { }
+
+        public Map(string fileName, int activeWidth, int activeHeight, int dimensions, Texture2D[] textures)
         {
             this.textures = textures;
             this.activeWidth = activeWidth;
             this.activeHeight = activeHeight;
-            this.loadedWidth = loadedWidth;
-            this.loadedHeight = loadedHeight;
-            this.centerObject = centerObject;
+            this.loadedWidth = activeWidth + dimensions * 4;
+            this.loadedHeight = activeWidth + dimensions * 4;
             this.dimensions = dimensions;
 
             #region Read map data from file
@@ -89,7 +88,7 @@ namespace Omnipath
                 //  centered on (centerX, centerY)
 
                 // Skip over unnecessary lines
-                for (int i = 0; i < CenterY - (loadedHeight / 2); ++i)
+                for (int i = 0; i < Center.Y - (loadedHeight / 2); ++i)
                 {
                     for (int j = 0; j < MapWidth; ++j)
                     {
@@ -101,7 +100,7 @@ namespace Omnipath
                 for (int i = 0; i < MapWidth; ++i)
                 {
                     // Skip over unnecessary X-coordinates at the start of the current line
-                    for (int j = 0; j < CenterX - (loadedWidth / 2); ++j)
+                    for (int j = 0; j < Center.X - (loadedWidth / 2); ++j)
                     {
                         new Terrain(reader, dimensions, 0, 0);
                     }
@@ -113,7 +112,7 @@ namespace Omnipath
                     }
 
                     // Skip over unnecessary x coordinates at the end of the current line
-                    for (int j = 0; j < MapWidth - (CenterX + (loadedWidth / 2)); ++j)
+                    for (int j = 0; j < MapWidth - (Center.X + (loadedWidth / 2)); ++j)
                     {
                         new Terrain(reader, dimensions, 0, 0);
                     }
@@ -142,6 +141,26 @@ namespace Omnipath
         #endregion
 
         #region Methods
+        public void ShiftNorth()
+        {
+
+        }
+
+        public void ShiftEast()
+        {
+
+        }
+
+        public void ShiftSouth()
+        {
+
+        }
+
+        public void ShiftWest()
+        {
+
+        }
+
         /// <param name="xCoord"></param>
         /// <param name="yCoord"></param>
         /// <returns>
@@ -402,7 +421,7 @@ namespace Omnipath
         {
             get
             {
-                return new Rectangle(CenterX - (activeWidth / 2), CenterY - (activeHeight / 2), activeWidth, activeHeight);
+                return new Rectangle(Center.X - (activeWidth / 2), Center.Y - (activeHeight / 2), activeWidth, activeHeight);
             }
         }
         
@@ -415,7 +434,7 @@ namespace Omnipath
         {
             get
             {
-                return new Rectangle(CenterX - (loadedWidth / 2), CenterY - (loadedHeight / 2), loadedWidth, loadedHeight);
+                return new Rectangle(Center.X - (loadedWidth / 2), Center.Y - (loadedHeight / 2), loadedWidth, loadedHeight);
             }
         }
 
@@ -453,24 +472,13 @@ namespace Omnipath
         }
 
         /// <summary>
-        /// The X-Coordinate this map is centered on
+        /// The coordinates this map is centered on
         /// </summary>
-        private int CenterX
+        private Point Center
         {
             get
             {
-                return centerObject.Center.X;
-            }
-        }
-        
-        /// <summary>
-        /// The Y-Coordinate this map is centered on
-        /// </summary>
-        private int CenterY
-        {
-            get
-            {
-                return centerObject.Center.Y;
+                return ActiveZone.Center;
             }
         }
         #endregion
