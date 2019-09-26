@@ -131,11 +131,31 @@ namespace Omnipath
                     switch (controlMapping[k])
                     {
 
+                        #region Movement
+                        case PlayerAction.MoveNorth:
+                            velocityY += 1;
+                            break;
 
+                        case PlayerAction.MoveEast:
+                            velocityX += 1;
+                            break;
+
+                        case PlayerAction.MoveSouth:
+                            velocityY -= 1;
+                            break;
+
+                        case PlayerAction.MoveWest:
+                            velocityX -= 1;
+                            break;
+                        #endregion
 
                     }
                 }
             }
+
+            
+
+
         }
 
         public float TakeDamage(IDealDamage source, DamageInstance[] damageInstances)

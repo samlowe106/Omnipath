@@ -13,6 +13,11 @@ namespace Omnipath
     {
         Pause = 0,
         MainAttack = 1,
-        SecondaryAttack = 2
+        SecondaryAttack = 2,
+        MoveNorth,
+        MoveEast,
+        MoveSouth,
+        MoveWest
+
     }
 }

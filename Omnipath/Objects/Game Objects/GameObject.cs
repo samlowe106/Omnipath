@@ -14,6 +14,7 @@ namespace Omnipath
     /// </summary>
     abstract class GameObject : IDisplayable
     {
+
         #region Fields
         // MonoGame-relevant fields
         protected Rectangle rectangle;  // Position, width, height
@@ -22,6 +23,8 @@ namespace Omnipath
         protected float angle;
         protected Vector2 direction;
         protected List<Modifier> modifiers;
+        protected float velocityY;
+        protected float velocityX;
         #endregion
 
         #region Constructor
@@ -197,6 +200,16 @@ namespace Omnipath
         {
             get;
         }
+
+        /// <summary>
+        /// A vector representing this object's velocity
+        /// </summary>
+        public Vector2 Velocity => Vector2.Normalize(new Vector2(velocityX, velocityY)) * Speed;
+
+        /// <summary>
+        /// A scalar representing this object's speed
+        /// </summary>
+        public float Speed { get; set; }
         #endregion
     }
 }
