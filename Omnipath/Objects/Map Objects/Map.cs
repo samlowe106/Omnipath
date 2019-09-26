@@ -32,6 +32,7 @@ namespace Omnipath
         /// </summary>
         private Dictionary<Terrain, List<Terrain>> adjacencies;
         private Terrain[,] terrainArray;
+        private List<List<Terrain>> loadedTerrain;
 
         /// <summary>
         /// The array of textures used to associate IDs and textures
